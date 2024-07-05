@@ -56,11 +56,12 @@ export class MainPage extends Component<Props, State> {
   render(): JSX.Element {
     return (
       <div className={styles['page']} {...this.props}>
-        <header>
+        <header className={styles['header']}>
+          <div className={styles['logo']}>Pokémon TCG</div>
           <Search search={this.state.search} setSearch={this.setSearch} />
           <BuggyButton />
         </header>
-        <main>
+        <main className={styles['main']}>
           <ListItems items={this.state.items} loading={this.state.loading} />
         </main>
       </div>

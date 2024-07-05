@@ -1,0 +1,20 @@
+.button {
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+
+  &:hover {
+    filter: brightness(90%);
+  }
+}
+
+.primary {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.red {
+  background: var(--red);
+  color: var(--white);
+}

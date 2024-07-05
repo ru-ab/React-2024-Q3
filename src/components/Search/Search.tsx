@@ -3,6 +3,7 @@ import { Input } from '../Input/Input';
 import { Button } from '../Button/Button';
 import { SearchProps } from './Search.props';
 import { SearchState } from './Search.state';
+import styles from './Search.module.css';
 
 type Props = SearchProps;
 type State = SearchState;
@@ -29,9 +30,15 @@ export class Search extends Component<Props, State> {
     };
 
     return (
-      <form {...props}>
-        <Input value={this.state.search} onChange={this.onChange} />
-        <Button onClick={onClick}>Search</Button>
+      <form className={styles['form']} {...props}>
+        <Input
+          value={this.state.search}
+          onChange={this.onChange}
+          type="search"
+        />
+        <Button appearance="primary" onClick={onClick}>
+          Search
+        </Button>
       </form>
     );
   }
