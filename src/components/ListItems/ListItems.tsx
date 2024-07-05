@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { ListItemsProps } from './ListItems.props';
+import styles from './ListItems.module.css';
 
 type Props = ListItemsProps;
 
@@ -16,12 +17,18 @@ export class ListItems extends Component<Props> {
     }
 
     return (
-      <ul {...props}>
+      <ul className={styles['list']} {...props}>
         {items.map((item) => (
-          <li key={item.id}>
-            <img src={item.images.small} alt={item.name} />
-            <div>{item.name}</div>
-            {item.flavorText && <div>{item.flavorText}</div>}
+          <li key={item.id} className={styles['list-item']}>
+            <img
+              src={item.images.small}
+              alt={item.name}
+              className={styles['image']}
+            />
+            <div className={styles['name']}>{item.name}</div>
+            <div className={styles['description']}>
+              {item.flavorText ? item.flavorText : 'No description'}
+            </div>
           </li>
         ))}
       </ul>
