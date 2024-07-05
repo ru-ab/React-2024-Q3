@@ -2,35 +2,37 @@ import { ChangeEvent, Component, ContextType, MouseEvent } from 'react';
 import { Input } from '../Input/Input';
 import { Button } from '../Button/Button';
 import { SearchProps } from './Search.props';
-import { SEARCH } from './Search.const';
-import { SearchContext } from '../../contexts';
+import { SearchState } from './Search.state';
+import { ItemsContext } from '../../contexts';
 
-export class Search extends Component<SearchProps> {
-  static contextType = SearchContext;
-  declare context: ContextType<typeof SearchContext>;
+type Props = Readonly<SearchProps>;
+type State = Readonly<SearchState>;
+
+export class Search extends Component<Props, State> {
+  static contextType = ItemsContext;
+  declare context: ContextType<typeof ItemsContext>;
+
+  readonly state: State = {
+    search: '',
+  };
 
   componentDidMount(): void {
-    const search = localStorage.getItem(SEARCH);
-    if (!search) {
-      return;
-    }
-
-    this.context.setSearch(search);
+    this.setState({ search: this.context.search });
   }
 
   onChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    this.context.setSearch(event.target.value);
+    this.setState({ search: event.target.value });
   };
 
   onClick = (event: MouseEvent): void => {
     event.preventDefault();
-    localStorage.setItem(SEARCH, this.context.search);
+    this.context.setSearch(this.state.search);
   };
 
   render(): JSX.Element {
     return (
       <form {...this.props}>
-        <Input value={this.context.search} onChange={this.onChange} />
+        <Input value={this.state.search} onChange={this.onChange} />
         <Button onClick={this.onClick}>Search</Button>
       </form>
     );

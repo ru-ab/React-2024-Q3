@@ -1,2 +1,2 @@
-export { SearchContextProvider } from './SearchContext/SearchContext.provider';
-export { SearchContext } from './SearchContext/SearchContext';
+export { ItemsContextProvider } from './ItemsContext/ItemsContext.provider';
+export { ItemsContext } from './ItemsContext/ItemsContext';
