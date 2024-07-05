@@ -1,17 +1,15 @@
-import { Component, PropsWithChildren } from 'react';
-import { ItemsContext, ItemsContextState } from './ItemsContext';
+import { Component } from 'react';
+import styles from './MainPage.module.css';
+import { BuggyButton, ListItems, Search } from '../../components';
+import { MainPageProps } from './MainPage.props';
+import { SEARCH } from './MainPage.const';
+import { MainPageState } from './MainPage.state';
 import { GetItemsRequest, getItems } from '../../api';
-import { SEARCH } from './ItemsContext.const';
 
-type ItemsContextProviderState = Pick<
-  ItemsContextState,
-  'search' | 'items' | 'loading'
->;
+type Props = MainPageProps;
+type State = MainPageState;
 
-type Props = Readonly<PropsWithChildren>;
-type State = Readonly<ItemsContextProviderState>;
-
-export class ItemsContextProvider extends Component<Props, State> {
+export class MainPage extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
@@ -57,14 +55,15 @@ export class ItemsContextProvider extends Component<Props, State> {
 
   render(): JSX.Element {
     return (
-      <ItemsContext.Provider
-        value={{
-          ...this.state,
-          setSearch: this.setSearch,
-        }}
-      >
-        {this.props.children}
-      </ItemsContext.Provider>
+      <div className={styles['page']} {...this.props}>
+        <header>
+          <Search search={this.state.search} setSearch={this.setSearch} />
+          <BuggyButton />
+        </header>
+        <main>
+          <ListItems items={this.state.items} loading={this.state.loading} />
+        </main>
+      </div>
     );
   }
 }

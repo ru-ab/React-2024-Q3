@@ -3,11 +3,11 @@ import { Button } from '../Button/Button';
 import { BuggyButtonState } from './BuggyButton.state';
 import { BuggyButtonProps } from './BuggyButton.props';
 
-type Props = Readonly<BuggyButtonProps>;
-type State = Readonly<BuggyButtonState>;
+type Props = BuggyButtonProps;
+type State = BuggyButtonState;
 
 export class BuggyButton extends Component<Props, State> {
-  readonly state: State = {
+  state: State = {
     throwError: false,
   };
 

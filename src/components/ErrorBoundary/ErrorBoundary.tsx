@@ -2,11 +2,11 @@ import { Component } from 'react';
 import { ErrorBoundaryProps } from './ErrorBoundary.props';
 import { ErrorBoundaryState } from './ErrorBoundary.state';
 
-type Props = Readonly<ErrorBoundaryProps>;
-type State = Readonly<ErrorBoundaryState>;
+type Props = ErrorBoundaryProps;
+type State = ErrorBoundaryState;
 
 export class ErrorBoundary extends Component<Props, State> {
-  readonly state: State = {
+  state: State = {
     hasError: false,
   };
 

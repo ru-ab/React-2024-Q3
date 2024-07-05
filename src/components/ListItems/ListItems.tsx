@@ -1,25 +1,23 @@
-import { Component, ContextType } from 'react';
+import { Component } from 'react';
 import { ListItemsProps } from './ListItems.props';
-import { ItemsContext } from '../../contexts';
 
-type Props = Readonly<ListItemsProps>;
+type Props = ListItemsProps;
 
 export class ListItems extends Component<Props> {
-  static contextType = ItemsContext;
-  declare context: ContextType<typeof ItemsContext>;
-
   render(): JSX.Element {
-    if (this.context.loading) {
+    const { loading, items, ...props } = this.props;
+
+    if (loading) {
       return <>Loading...</>;
     }
 
-    if (!this.context.items.length) {
+    if (!items.length) {
       return <>No items</>;
     }
 
     return (
-      <ul {...this.props}>
-        {this.context.items.map((item) => (
+      <ul {...props}>
+        {items.map((item) => (
           <li key={item.id}>
             <img src={item.images.small} alt={item.name} />
             <div>{item.name}</div>
