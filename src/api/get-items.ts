@@ -5,6 +5,7 @@ export type GetItemsRequest = {
   search?: string;
   page?: number;
   pageSize?: number;
+  signal: AbortSignal;
 };
 
 export type GetItemsResponse = {
@@ -19,6 +20,7 @@ export async function getItems({
   search = '',
   page = 1,
   pageSize = 250,
+  signal,
 }: GetItemsRequest): Promise<GetItemsResponse> {
   const params: string[] = [];
   params.push(`page=${page}`);
@@ -28,7 +30,7 @@ export async function getItems({
     params.push(`q=name:*${search}*`);
   }
 
-  const response = await fetch(`${API.cards}?${params.join('&')}`);
+  const response = await fetch(`${API.cards}?${params.join('&')}`, { signal });
 
   if (!response.ok) {
     throw new Error(response.statusText);

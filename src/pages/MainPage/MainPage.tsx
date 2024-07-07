@@ -10,6 +10,8 @@ type Props = MainPageProps;
 type State = MainPageState;
 
 export class MainPage extends Component<Props, State> {
+  private abortController: AbortController = new AbortController();
+
   constructor(props: Props) {
     super(props);
 
@@ -29,13 +31,23 @@ export class MainPage extends Component<Props, State> {
     this.requestItems();
   }
 
+  componentWillUnmount(): void {
+    this.abortController.abort();
+  }
+
   requestItems = async (): Promise<void> => {
     try {
-      this.setState({ loading: true });
+      this.abortController.abort();
 
-      let request: GetItemsRequest = {};
+      this.setState({ loading: true });
+      this.abortController = new AbortController();
+
+      let request: GetItemsRequest = {
+        signal: this.abortController.signal,
+      };
       if (this.state.search) {
         request = {
+          ...request,
           search: this.state.search,
           pageSize: 20,
         };
@@ -43,7 +55,11 @@ export class MainPage extends Component<Props, State> {
 
       const { data: items } = await getItems(request);
       this.setState({ items, loading: false });
-    } catch {
+    } catch (error) {
+      if (error instanceof DOMException) {
+        return;
+      }
+
       this.setState({ items: [], loading: false });
     }
   };
