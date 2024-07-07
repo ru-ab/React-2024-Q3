@@ -19,11 +19,11 @@ export class MainPage extends Component<Props, State> {
     this.state = { search: search ?? '', items: [], loading: false };
   }
 
-  async componentDidMount(): Promise<void> {
+  componentDidMount(): void {
     this.requestItems();
   }
 
-  async componentDidUpdate(_: Props, prevState: State): Promise<void> {
+  componentDidUpdate(_: Props, prevState: State): void {
     if (prevState.search === this.state.search) {
       return;
     }
