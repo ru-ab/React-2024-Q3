@@ -3,3 +3,5 @@ export { Button } from './Button/Button';
 export { Search } from './Search/Search';
 export { ListItems } from './ListItems/ListItems';
 export { BuggyButton } from './BuggyButton/BuggyButton';
+export { ErrorBoundary } from './ErrorBoundary/ErrorBoundary';
+export { ErrorMessage } from './ErrorMessage/ErrorMessage';

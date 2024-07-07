@@ -18,3 +18,12 @@
   background: var(--red);
   color: var(--white);
 }
+
+.m {
+  height: 35px;
+}
+
+.l {
+  height: 48px;
+  font-size: 18px;
+}

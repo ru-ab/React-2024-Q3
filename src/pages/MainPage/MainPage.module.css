@@ -2,7 +2,7 @@
   height: 100vh;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto;
 }
 
 .header {
@@ -20,7 +20,7 @@
 }
 
 .logo {
-  color: var(--white);
+  color: var(--gray);
   font-size: 24px;
   font-weight: 600;
 }
@@ -30,5 +30,4 @@
   padding: 20px;
   display: grid;
   grid-template-columns: 1fr;
-  justify-items: center;
 }

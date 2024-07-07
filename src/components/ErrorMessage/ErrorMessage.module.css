@@ -1,0 +1,15 @@
+.wrapper {
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  align-content: center;
+}
+
+.message {
+  font-weight: 600;
+  font-size: 48px;
+  color: var(--red);
+  margin-bottom: 20px;
+}

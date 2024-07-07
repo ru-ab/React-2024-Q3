@@ -36,7 +36,7 @@ export class Search extends Component<Props, State> {
           onChange={this.onChange}
           type="search"
         />
-        <Button appearance="primary" onClick={onClick}>
+        <Button appearance="primary" size="m" onClick={onClick}>
           Search
         </Button>
       </form>

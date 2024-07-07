@@ -6,11 +6,11 @@ type Props = ButtonProps;
 
 export class Button extends Component<Props> {
   render(): JSX.Element {
-    const { appearance } = this.props;
+    const { appearance, size } = this.props;
 
     return (
       <button
-        className={`${styles['button']} ${appearance === 'primary' ? styles['primary'] : styles['red']}`}
+        className={`${styles['button']} ${styles[appearance]} ${styles[size]}`}
         {...this.props}
       >
         {this.props.children}

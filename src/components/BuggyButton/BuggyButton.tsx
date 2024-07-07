@@ -21,7 +21,7 @@ export class BuggyButton extends Component<Props, State> {
     }
 
     return (
-      <Button onClick={this.onClick} appearance="red" {...this.props}>
+      <Button onClick={this.onClick} appearance="red" size="m" {...this.props}>
         Throw an error
       </Button>
     );
