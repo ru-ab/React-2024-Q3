@@ -2,14 +2,12 @@ import { useEffect, useState } from 'react';
 import styles from './MainPage.module.css';
 import { BuggyButton, ListItems, Search, Spinner } from '../../components';
 import { MainPageProps } from './MainPage.props';
-import { SEARCH } from './MainPage.const';
 import { GetItemsRequest, getItems } from '../../api';
 import { Card } from '../../types';
+import { useSearch } from '../../hooks';
 
 export function MainPage(props: MainPageProps) {
-  const [search, setSearch] = useState<string>(
-    () => localStorage.getItem(SEARCH) ?? ''
-  );
+  const { search, setSearch } = useSearch();
   const [loading, setLoading] = useState<boolean>(false);
   const [items, setItems] = useState<Card[]>([]);
 
@@ -19,7 +17,6 @@ export function MainPage(props: MainPageProps) {
     async function requestItems() {
       try {
         setLoading(true);
-        localStorage.setItem(SEARCH, search.trim());
 
         let request: GetItemsRequest = {
           signal: abortController.signal,
@@ -55,10 +52,7 @@ export function MainPage(props: MainPageProps) {
     <div className={styles['page']} {...props}>
       <header className={styles['header']}>
         <div className={styles['logo']}>Pokémon TCG</div>
-        <Search
-          search={search}
-          setSearch={(search) => setSearch(search.trim())}
-        />
+        <Search search={search} setSearch={setSearch} />
         <BuggyButton />
       </header>
       <main className={styles['main']}>
