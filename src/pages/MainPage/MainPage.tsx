@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import styles from './MainPage.module.css';
-import { BuggyButton, ListItems, Search } from '../../components';
+import { BuggyButton, ListItems, Search, Spinner } from '../../components';
 import { MainPageProps } from './MainPage.props';
 import { SEARCH } from './MainPage.const';
 import { MainPageState } from './MainPage.state';
@@ -78,7 +78,11 @@ export class MainPage extends Component<Props, State> {
           <BuggyButton />
         </header>
         <main className={styles['main']}>
-          <ListItems items={this.state.items} loading={this.state.loading} />
+          {this.state.loading ? (
+            <Spinner className={styles['spinner']} />
+          ) : (
+            <ListItems items={this.state.items} />
+          )}
         </main>
       </div>
     );

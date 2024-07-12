@@ -31,3 +31,9 @@
   display: grid;
   grid-template-columns: 1fr;
 }
+
+.spinner {
+  height: 100%;
+  justify-self: center;
+  align-self: center;
+}

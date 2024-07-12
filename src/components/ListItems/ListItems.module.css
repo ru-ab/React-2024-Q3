@@ -35,12 +35,6 @@
   gap: 20px;
 }
 
-.spinner {
-  height: 100%;
-  justify-self: center;
-  align-self: center;
-}
-
 .no-items {
   justify-self: center;
   align-self: center;

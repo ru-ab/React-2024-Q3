@@ -4,4 +4,4 @@ import { Card } from '../../types';
 export type ListItemsProps = DetailedHTMLProps<
   HTMLAttributes<HTMLUListElement>,
   HTMLUListElement
-> & { items: Card[]; loading: boolean };
+> & { items: Card[] };
