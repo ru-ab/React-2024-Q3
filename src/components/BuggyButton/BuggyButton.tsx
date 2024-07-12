@@ -1,29 +1,21 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { Button } from '../Button/Button';
-import { BuggyButtonState } from './BuggyButton.state';
 import { BuggyButtonProps } from './BuggyButton.props';
 
-type Props = BuggyButtonProps;
-type State = BuggyButtonState;
+export function BuggyButton(props: BuggyButtonProps) {
+  const [error, setError] = useState<Error>();
 
-export class BuggyButton extends Component<Props, State> {
-  state: State = {
-    throwError: false,
+  const onClick = () => {
+    setError(new Error('Bug!'));
   };
 
-  onClick = () => {
-    this.setState({ throwError: true });
-  };
-
-  render(): JSX.Element {
-    if (this.state.throwError) {
-      throw new Error('Bug!');
-    }
-
-    return (
-      <Button onClick={this.onClick} appearance="red" size="m" {...this.props}>
-        Throw an error
-      </Button>
-    );
+  if (error) {
+    throw error;
   }
+
+  return (
+    <Button onClick={onClick} appearance="red" size="m" {...props}>
+      Throw an error
+    </Button>
+  );
 }
