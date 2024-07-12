@@ -14,7 +14,7 @@ export function BuggyButton(props: BuggyButtonProps) {
   }
 
   return (
-    <Button onClick={onClick} appearance="red" size="m" {...props}>
+    <Button onClick={onClick} appearance="red" {...props}>
       Throw an error
     </Button>
   );
