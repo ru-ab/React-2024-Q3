@@ -1,5 +1,5 @@
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
 
 export type ErrorBoundaryProps = PropsWithChildren & {
-  fallback: JSX.Element;
+  fallback: React.JSX.Element;
 };
