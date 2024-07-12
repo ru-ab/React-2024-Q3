@@ -1,90 +1,73 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './MainPage.module.css';
 import { BuggyButton, ListItems, Search, Spinner } from '../../components';
 import { MainPageProps } from './MainPage.props';
 import { SEARCH } from './MainPage.const';
-import { MainPageState } from './MainPage.state';
 import { GetItemsRequest, getItems } from '../../api';
+import { Card } from '../../types';
 
-type Props = MainPageProps;
-type State = MainPageState;
+export function MainPage(props: MainPageProps) {
+  const [search, setSearch] = useState<string>(
+    () => localStorage.getItem(SEARCH) ?? ''
+  );
+  const [loading, setLoading] = useState<boolean>(false);
+  const [items, setItems] = useState<Card[]>([]);
 
-export class MainPage extends Component<Props, State> {
-  private abortController: AbortController = new AbortController();
+  useEffect(() => {
+    const abortController = new AbortController();
 
-  constructor(props: Props) {
-    super(props);
+    async function requestItems() {
+      try {
+        setLoading(true);
+        localStorage.setItem(SEARCH, search.trim());
 
-    const search = localStorage.getItem(SEARCH);
-    this.state = { search: search ?? '', items: [], loading: false };
-  }
-
-  componentDidMount(): void {
-    this.requestItems();
-  }
-
-  componentDidUpdate(_: Props, prevState: State): void {
-    if (prevState.search === this.state.search) {
-      return;
-    }
-
-    this.requestItems();
-  }
-
-  componentWillUnmount(): void {
-    this.abortController.abort();
-  }
-
-  requestItems = async (): Promise<void> => {
-    try {
-      this.abortController.abort();
-
-      this.setState({ loading: true });
-      this.abortController = new AbortController();
-
-      let request: GetItemsRequest = {
-        signal: this.abortController.signal,
-      };
-      if (this.state.search) {
-        request = {
-          ...request,
-          search: this.state.search,
-          pageSize: 20,
+        let request: GetItemsRequest = {
+          signal: abortController.signal,
         };
-      }
 
-      const { data: items } = await getItems(request);
-      this.setState({ items, loading: false });
-    } catch (error) {
-      if (error instanceof DOMException) {
-        return;
-      }
+        if (search) {
+          request = {
+            ...request,
+            search,
+            pageSize: 20,
+          };
+        }
 
-      this.setState({ items: [], loading: false });
+        const { data } = await getItems(request);
+        setItems(data);
+        setLoading(false);
+      } catch (error) {
+        if (error instanceof DOMException) {
+          return;
+        }
+
+        setItems([]);
+        setLoading(false);
+      }
     }
-  };
 
-  setSearch = (search: string): void => {
-    this.setState({ search: search.trim() });
-    localStorage.setItem(SEARCH, search.trim());
-  };
+    requestItems();
 
-  render(): JSX.Element {
-    return (
-      <div className={styles['page']} {...this.props}>
-        <header className={styles['header']}>
-          <div className={styles['logo']}>Pokémon TCG</div>
-          <Search search={this.state.search} setSearch={this.setSearch} />
-          <BuggyButton />
-        </header>
-        <main className={styles['main']}>
-          {this.state.loading ? (
-            <Spinner className={styles['spinner']} />
-          ) : (
-            <ListItems items={this.state.items} />
-          )}
-        </main>
-      </div>
-    );
-  }
+    return () => abortController.abort();
+  }, [search]);
+
+  return (
+    <div className={styles['page']} {...props}>
+      <header className={styles['header']}>
+        <div className={styles['logo']}>Pokémon TCG</div>
+        <Search
+          search={search}
+          setSearch={(search) => setSearch(search.trim())}
+        />
+        <BuggyButton />
+      </header>
+      <main className={styles['main']}>
+        {loading ? (
+          <Spinner className={styles['spinner']} />
+        ) : (
+          <ListItems items={items} />
+        )}
+      </main>
+    </div>
+  );
 }
