@@ -19,6 +19,16 @@
   color: var(--white);
 }
 
+.gray {
+  background: var(--gray);
+  color: var(--text-color);
+}
+
+.surface {
+  background: var(--surface);
+  color: var(--white);
+}
+
 .m {
   height: 35px;
 }

@@ -35,7 +35,11 @@ export function DetailedCard() {
     <aside className={styles['panel']}>
       <div className={styles['wrapper']}>
         <div className={styles['detailed-card']}>
-          <Button className={styles['close-button']} onClick={clearDetails}>
+          <Button
+            className={styles['close-button']}
+            onClick={clearDetails}
+            appearance="surface"
+          >
             X
           </Button>
           <div className={styles['info']}>

@@ -2,9 +2,15 @@ import { useEffect, useState } from 'react';
 import { CardType } from '../types';
 import { getItems, GetItemsRequest } from '../api';
 
-export function useItems(search: string) {
+type UseItemsProps = {
+  search: string;
+  page?: number;
+};
+
+export function useItems({ search, page }: UseItemsProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [items, setItems] = useState<CardType[]>([]);
+  const [totalCount, setTotalCount] = useState<number>(0);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -13,20 +19,29 @@ export function useItems(search: string) {
       try {
         setLoading(true);
 
-        let request: GetItemsRequest = {
+        const pageParam = page
+          ? {
+              page,
+              pageSize: 20,
+            }
+          : {};
+
+        const searchParam = search
+          ? {
+              search,
+              pageSize: 20,
+            }
+          : {};
+
+        const request: GetItemsRequest = {
           signal: abortController.signal,
+          ...pageParam,
+          ...searchParam,
         };
 
-        if (search) {
-          request = {
-            ...request,
-            search,
-            pageSize: 20,
-          };
-        }
-
-        const { data } = await getItems(request);
+        const { data, totalCount } = await getItems(request);
         setItems(data);
+        setTotalCount(totalCount);
         setLoading(false);
       } catch (error) {
         if (error instanceof DOMException) {
@@ -34,6 +49,7 @@ export function useItems(search: string) {
         }
 
         setItems([]);
+        setTotalCount(0);
         setLoading(false);
       }
     }
@@ -41,10 +57,11 @@ export function useItems(search: string) {
     requestItems();
 
     return () => abortController.abort();
-  }, [search]);
+  }, [search, page]);
 
   return {
     items,
+    totalCount,
     loading,
   };
 }

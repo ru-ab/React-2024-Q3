@@ -16,3 +16,8 @@
   justify-self: center;
   align-self: center;
 }
+
+.paginator {
+  padding: 20px;
+  justify-self: center;
+}
