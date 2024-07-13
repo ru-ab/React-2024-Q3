@@ -1,7 +1,7 @@
 export { Input } from './Input/Input';
 export { Button } from './Button/Button';
 export { Search } from './Search/Search';
-export { ListItems } from './ListItems/ListItems';
+export { CardList } from './CardList/CardList';
 export { BuggyButton } from './BuggyButton/BuggyButton';
 export { ErrorBoundary } from './ErrorBoundary/ErrorBoundary';
 export { Fallback } from './Fallback/Fallback';

@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { Header, ListItems, Spinner } from '../components';
+import { Header, CardList, Spinner } from '../components';
 import { useItems, useSearch } from '../hooks';
 import styles from './Layout.module.css';
 
@@ -14,7 +14,7 @@ export function Layout() {
         {loading ? (
           <Spinner className={styles['spinner']} />
         ) : (
-          <ListItems items={items} />
+          <CardList items={items} />
         )}
       </main>
       <Outlet />

@@ -1,4 +1,4 @@
-import { Card } from '../types';
+import { CardType } from '../types';
 import { API } from './api';
 
 export type GetItemsRequest = {
@@ -9,7 +9,7 @@ export type GetItemsRequest = {
 };
 
 export type GetItemsResponse = {
-  data: Card[];
+  data: CardType[];
   page: number;
   pageSize: number;
   count: number;

@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
-import { ListItems } from '../../../components';
-import { ListItemsProps } from '../../../components/ListItems/ListItems.props';
-import { Card } from '../../../types';
+import { CardList } from '../../../components';
+import { CardListProps } from '../../../components/CardList/CardList.props';
+import { CardType } from '../../../types';
 
-describe('ListItems', () => {
-  const renderComponent = (props: ListItemsProps) => {
-    render(<ListItems {...props} />);
+describe('CardList', () => {
+  const renderComponent = (props: CardListProps) => {
+    render(<CardList {...props} />);
 
     const list = screen.queryByRole('list');
     const listItems = screen.queryAllByRole('listitem');
@@ -24,7 +24,7 @@ describe('ListItems', () => {
   });
 
   it('should render items', async () => {
-    const items: Card[] = [
+    const items: CardType[] = [
       {
         id: '1',
         name: 'card1',
@@ -52,7 +52,7 @@ describe('ListItems', () => {
   });
 
   it('should render item without description', async () => {
-    const items: Card[] = [
+    const items: CardType[] = [
       {
         id: '1',
         name: 'card1',

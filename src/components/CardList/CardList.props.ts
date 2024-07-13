@@ -1,7 +1,7 @@
 import { DetailedHTMLProps, HTMLAttributes } from 'react';
-import { Card } from '../../types';
+import { CardType } from '../../types';
 
-export type ListItemsProps = DetailedHTMLProps<
+export type CardListProps = DetailedHTMLProps<
   HTMLAttributes<HTMLUListElement>,
   HTMLUListElement
-> & { items: Card[] };
+> & { items: CardType[] };

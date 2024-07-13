@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Card } from '../types';
+import { CardType } from '../types';
 import { getItems, GetItemsRequest } from '../api';
 
 export function useItems(search: string) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [items, setItems] = useState<Card[]>([]);
+  const [items, setItems] = useState<CardType[]>([]);
 
   useEffect(() => {
     const abortController = new AbortController();
