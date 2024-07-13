@@ -6,10 +6,10 @@
 }
 
 .main {
-  margin-top: 100px;
-  padding: 20px;
+  padding: 120px 20px 20px;
   display: grid;
   grid-template-columns: 1fr;
+  background: var(--gray);
 }
 
 .spinner {

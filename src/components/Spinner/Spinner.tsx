@@ -3,10 +3,8 @@ import { SpinnerProps } from './Spinner.props';
 
 export function Spinner({ className, ...props }: SpinnerProps) {
   return (
-    <div
-      className={`${styles['spinner']} ${className ?? ''}`}
-      role="progressbar"
-      {...props}
-    />
+    <div role="progressbar" className={className ?? ''} {...props}>
+      <div className={styles['spinner']} />
+    </div>
   );
 }
