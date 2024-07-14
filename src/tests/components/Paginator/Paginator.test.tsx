@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { Paginator } from '../../../components';
 import { PaginatorProps } from '../../../components/Paginator/Paginator.props';
+import userEvent from '@testing-library/user-event';
 
 vi.mock('react-router-dom');
 
@@ -39,9 +40,25 @@ describe('Paginator', () => {
       onPage: () => {},
     });
 
-    screen.debug();
-
     const button = screen.getByText('...');
     expect(button).toBeInTheDocument();
+  });
+
+  it('should call onPage upon button click', async () => {
+    const onPageMock = vi.fn();
+
+    await renderComponent({
+      page: 1,
+      pageSize: 2,
+      totalCount: 1000,
+      onPage: onPageMock,
+    });
+
+    const button = screen.getByRole('button', { name: /3/i });
+
+    const user = userEvent.setup();
+    await user.click(button);
+
+    expect(onPageMock).toHaveBeenCalledWith(3);
   });
 });
