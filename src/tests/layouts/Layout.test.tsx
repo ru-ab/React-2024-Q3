@@ -46,4 +46,15 @@ describe('Layout', () => {
 
     expect(header).toBeInTheDocument();
   });
+
+  it('should not clean details', async () => {
+    await renderComponent({ detailsParamExists: true });
+
+    const header = screen.getByText('Header');
+
+    const user = userEvent.setup();
+    await user.click(header);
+
+    expect(header).toBeInTheDocument();
+  });
 });
