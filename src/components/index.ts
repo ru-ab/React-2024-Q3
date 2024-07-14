@@ -9,3 +9,4 @@ export { Spinner } from './Spinner/Spinner';
 export { DetailedCard } from './DetailedCard/DetailedCard';
 export { Header } from './Header/Header';
 export { Paginator } from './Paginator/Paginator';
+export { NotFound } from './NotFound/NotFound';

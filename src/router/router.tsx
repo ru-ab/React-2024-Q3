@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { DetailedCard, ErrorBoundary, Fallback } from '../components';
+import { DetailedCard, ErrorBoundary, Fallback, NotFound } from '../components';
 import { Layout } from '../layouts/Layout';
 
 export const router = createBrowserRouter([
@@ -16,5 +16,9 @@ export const router = createBrowserRouter([
         element: <DetailedCard />,
       },
     ],
+  },
+  {
+    path: '*',
+    element: <NotFound />,
   },
 ]);
