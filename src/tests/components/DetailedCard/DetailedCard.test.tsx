@@ -38,7 +38,7 @@ describe('DetailedCard', () => {
     };
   };
 
-  it('should render the DetailedCard"', async () => {
+  it('should render the DetailedCard', async () => {
     const card = {
       id: '1',
       name: 'card1',
@@ -56,7 +56,21 @@ describe('DetailedCard', () => {
     expect(img).toBeInTheDocument();
     expect(name).toBeInTheDocument();
     expect(description).toBeInTheDocument();
+  });
 
-    screen.debug();
+  it('should render spinner while loading', async () => {
+    const card = {
+      id: '1',
+      name: 'card1',
+      flavorText: 'flavorText1',
+      images: { small: 'small1', large: 'large1' },
+      attacks: ['attack1'],
+    } as unknown as CardType;
+
+    await renderComponent({ item: card, loading: true });
+
+    const spinner = screen.getByRole('progressbar');
+
+    expect(spinner).toBeInTheDocument();
   });
 });
