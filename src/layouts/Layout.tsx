@@ -13,8 +13,7 @@ export function Layout() {
   });
 
   const cleanDetails = (event: MouseEvent) => {
-    const cardElement = (event.target as HTMLElement).closest('li');
-    if (cardElement) {
+    if (!searchParams.get('details')) {
       return;
     }
 
