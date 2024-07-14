@@ -20,7 +20,7 @@ vi.mock('../../components/NotFound/NotFound', () => ({
   NotFound: () => <div>NotFound</div>,
 }));
 
-describe('RouterProvider', () => {
+describe('Router', () => {
   const renderComponent = (router: Router) => {
     render(<RouterProvider router={router} />);
   };
