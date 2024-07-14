@@ -26,7 +26,10 @@ describe('CardList', () => {
   });
 
   it('should render items', async () => {
-    const items: CardType[] = ['card1', 'card2'] as unknown as CardType[];
+    const items: CardType[] = [
+      { id: 'card1' },
+      { id: 'card2' },
+    ] as unknown as CardType[];
 
     const { list, listItems } = renderComponent({
       items,
