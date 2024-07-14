@@ -1,4 +1,4 @@
-import { Card } from '../types';
+import { CardType } from '../types';
 import { API } from './api';
 
 export type GetItemsRequest = {
@@ -9,7 +9,7 @@ export type GetItemsRequest = {
 };
 
 export type GetItemsResponse = {
-  data: Card[];
+  data: CardType[];
   page: number;
   pageSize: number;
   count: number;
@@ -17,15 +17,19 @@ export type GetItemsResponse = {
 };
 
 export async function getItems({
-  search = '',
-  page = 1,
-  pageSize = 250,
+  search,
+  page,
+  pageSize,
   signal,
 }: GetItemsRequest): Promise<GetItemsResponse> {
   const params: string[] = [];
-  params.push(`page=${page}`);
-  params.push(`pageSize=${pageSize}`);
   params.push(`select=id,name,images,flavorText`);
+  if (page) {
+    params.push(`page=${page}`);
+  }
+  if (pageSize) {
+    params.push(`pageSize=${pageSize}`);
+  }
   if (search) {
     params.push(`q=name:*${search}*`);
   }

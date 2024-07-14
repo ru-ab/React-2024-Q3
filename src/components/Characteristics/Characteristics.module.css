@@ -1,0 +1,11 @@
+.characteristics {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto;
+  gap: 20px;
+  align-content: start;
+}
+
+.label {
+  font-weight: 600;
+}

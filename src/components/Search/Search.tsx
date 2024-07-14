@@ -1,45 +1,25 @@
-import { ChangeEvent, Component, MouseEvent } from 'react';
+import { ChangeEvent, MouseEvent, useState } from 'react';
 import { Input } from '../Input/Input';
 import { Button } from '../Button/Button';
 import { SearchProps } from './Search.props';
-import { SearchState } from './Search.state';
 import styles from './Search.module.css';
 
-type Props = SearchProps;
-type State = SearchState;
+export function Search({ search, setSearch, ...props }: SearchProps) {
+  const [searchText, setSearchText] = useState<string>(search);
 
-export class Search extends Component<Props, State> {
-  state: State = {
-    search: '',
+  const onChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    setSearchText(event.target.value);
   };
 
-  componentDidMount(): void {
-    this.setState({ search: this.props.search });
-  }
-
-  onChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ search: event.target.value });
+  const onClick = (event: MouseEvent): void => {
+    event.preventDefault();
+    setSearch(searchText);
   };
 
-  render(): JSX.Element {
-    const { setSearch, ...props } = this.props;
-
-    const onClick = (event: MouseEvent): void => {
-      event.preventDefault();
-      setSearch(this.state.search);
-    };
-
-    return (
-      <form className={styles['form']} {...props}>
-        <Input
-          value={this.state.search}
-          onChange={this.onChange}
-          type="search"
-        />
-        <Button appearance="primary" size="m" onClick={onClick}>
-          Search
-        </Button>
-      </form>
-    );
-  }
+  return (
+    <form className={styles['form']} {...props}>
+      <Input value={searchText} onChange={onChange} type="search" />
+      <Button onClick={onClick}>Search</Button>
+    </form>
+  );
 }
