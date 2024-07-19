@@ -1,16 +1,12 @@
-import { Outlet, useSearchParams } from 'react-router-dom';
-import { Header, CardList, Spinner, Paginator } from '../components';
-import { useItems, useSearch } from '../hooks';
-import styles from './Layout.module.css';
+import { CardList, Header } from '@/components';
+import { useSearch } from '@/hooks';
 import { MouseEvent } from 'react';
+import { Outlet, useSearchParams } from 'react-router-dom';
+import styles from './Layout.module.css';
 
 export function Layout() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { search, setSearch } = useSearch();
-  const { items, loading, totalCount } = useItems({
-    search,
-    page: Number(searchParams.get('page')),
-  });
 
   const cleanDetails = (event: MouseEvent) => {
     if (!searchParams.get('details')) {
@@ -28,23 +24,6 @@ export function Layout() {
     });
   };
 
-  const onPage = (pageNumber: number) => {
-    setSearchParams((params) => {
-      params.set('page', String(pageNumber));
-      return params;
-    });
-  };
-
-  const PaginatorComponent = (
-    <Paginator
-      className={styles['paginator']}
-      page={searchParams.get('page') ? Number(searchParams.get('page')) : null}
-      onPage={onPage}
-      pageSize={20}
-      totalCount={totalCount}
-    />
-  );
-
   return (
     <div className={styles['page']} onClick={cleanDetails}>
       <Header
@@ -58,15 +37,7 @@ export function Layout() {
         }}
       />
       <main className={styles['main']}>
-        {loading ? (
-          <Spinner className={styles['spinner']} />
-        ) : (
-          <>
-            {PaginatorComponent}
-            <CardList items={items} />
-            {PaginatorComponent}
-          </>
-        )}
+        <CardList search={search} />
       </main>
       <Outlet />
     </div>
