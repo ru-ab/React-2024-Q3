@@ -13,3 +13,11 @@ export type GetCardsResponse = {
   count: number;
   totalCount: number;
 };
+
+export type GetCardRequest = {
+  cardId: string;
+};
+
+export type GetCardResponse = {
+  data: CardType;
+};

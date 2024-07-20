@@ -1,4 +1,10 @@
-import { GetCardsRequest, GetCardsResponse } from '@/types';
+import {
+  CardType,
+  GetCardRequest,
+  GetCardResponse,
+  GetCardsRequest,
+  GetCardsResponse,
+} from '@/types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const baseUrl: string = import.meta.env.VITE_BASE_URL;
@@ -22,6 +28,10 @@ export const api = createApi({
         }
         return `cards?${params.join('&')}`;
       },
+    }),
+    getCard: builder.query<CardType, GetCardRequest>({
+      query: ({ cardId }) => `cards/${cardId}`,
+      transformResponse: (response: GetCardResponse) => response.data,
     }),
   }),
 });

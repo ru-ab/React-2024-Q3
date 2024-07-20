@@ -5,6 +5,19 @@ import { db } from './db';
 export const baseUrl: string = import.meta.env.VITE_BASE_URL;
 
 const handlers = [
+  http.get(`${baseUrl}/cards/:id`, ({ params }) => {
+    const { id } = params;
+
+    return HttpResponse.json({
+      data: db.card.findFirst({
+        where: {
+          id: {
+            equals: id as string,
+          },
+        },
+      }),
+    });
+  }),
   http.get(`${baseUrl}/cards`, ({ request }) => {
     const url = new URL(request.url);
 

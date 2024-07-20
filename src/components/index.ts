@@ -1,3 +1,4 @@
+export { Attacks } from './Attacks/Attacks';
 export { BuggyButton } from './BuggyButton/BuggyButton';
 export { Button } from './Button/Button';
 export { Card } from './Card/Card';
@@ -10,5 +11,6 @@ export { Header } from './Header/Header';
 export { Input } from './Input/Input';
 export { NotFound } from './NotFound/NotFound';
 export { Paginator } from './Paginator/Paginator';
+export { Panel } from './Panel/Panel';
 export { Search } from './Search/Search';
 export { Spinner } from './Spinner/Spinner';
