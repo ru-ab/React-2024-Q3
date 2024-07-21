@@ -1,8 +1,8 @@
 import { Card, Paginator, Spinner } from '@/components';
-import { api } from '@/services';
 import { useSearchParams } from 'react-router-dom';
 import styles from './CardList.module.css';
 import { CardListProps } from './CardList.props';
+import { useCards } from '@/hooks';
 
 const defaultPageSize = 20;
 
@@ -15,19 +15,13 @@ export function CardList({ search }: CardListProps) {
 
   const currentPageSize = currentPage ? defaultPageSize : null;
 
-  const {
-    data: response,
-    error,
-    isUninitialized,
-    isLoading,
-    isFetching,
-  } = api.useGetCardsQuery({
+  const { response, error, isFetching } = useCards({
     search,
     page: currentPage,
     pageSize: currentPageSize,
   });
 
-  if (isUninitialized || isLoading || isFetching) {
+  if (isFetching) {
     return <Spinner className={styles['spinner']} />;
   }
 
@@ -35,7 +29,7 @@ export function CardList({ search }: CardListProps) {
     return <>{error}</>;
   }
 
-  if (!response.data.length) {
+  if (!response?.data.length) {
     return <div className={styles['no-items']}>No items</div>;
   }
 

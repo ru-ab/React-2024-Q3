@@ -1,6 +1,8 @@
 import { Panel } from '@/components';
+import { store } from '@/store/store';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
 
 vi.mock('react-router-dom');
 
@@ -18,7 +20,11 @@ describe('Panel', () => {
       .fn()
       .mockReturnValue([searchParamsMock, setSearchParamsMock]);
 
-    render(<Panel />);
+    render(
+      <Provider store={store}>
+        <Panel />
+      </Provider>
+    );
 
     return {
       setSearchParamsMock,

@@ -1,19 +1,13 @@
 import { Button, DetailedCard } from '@/components';
+import { useHideDetailedCard } from '@/hooks';
 import { useSearchParams } from 'react-router-dom';
 import styles from './Panel.module.css';
 
 export function Panel() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
+  const { hideDetailedCard } = useHideDetailedCard();
 
   const cardId = searchParams.get('details');
-
-  const clearDetails = () => {
-    setSearchParams((params) => {
-      params.delete('details');
-      return params;
-    });
-  };
-
   if (!cardId) {
     return <></>;
   }
@@ -24,7 +18,7 @@ export function Panel() {
         <div className={styles['surface']}>
           <Button
             className={styles['close-button']}
-            onClick={clearDetails}
+            onClick={hideDetailedCard}
             appearance="surface"
           >
             X

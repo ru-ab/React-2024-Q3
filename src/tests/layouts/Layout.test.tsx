@@ -1,5 +1,7 @@
+import { Layout } from '@/layouts/Layout';
+import { store } from '@/store/store';
 import { render, screen } from '@testing-library/react';
-import { Layout } from '../../layouts/Layout';
+import { Provider } from 'react-redux';
 
 vi.mock('react-router-dom');
 
@@ -24,7 +26,11 @@ describe('Layout', () => {
       .fn()
       .mockReturnValue([{ get: getSearchParamsMock }, setSearchParamsMock]);
 
-    render(<Layout />);
+    render(
+      <Provider store={store}>
+        <Layout />
+      </Provider>
+    );
 
     return {
       setSearchParamsMock,

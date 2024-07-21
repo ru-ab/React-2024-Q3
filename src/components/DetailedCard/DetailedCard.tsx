@@ -1,18 +1,12 @@
 import { Attacks, Characteristics, Spinner } from '@/components';
-import { api } from '@/services';
+import { useCard } from '@/hooks';
 import styles from './DetailedCard.module.css';
 import { DetailedCardProps } from './DetailedCard.props';
 
 export function DetailedCard({ cardId }: DetailedCardProps) {
-  const {
-    data: card,
-    isUninitialized,
-    isLoading,
-    isFetching,
-    error,
-  } = api.useGetCardQuery({ cardId });
+  const { card, isFetching, error } = useCard({ cardId });
 
-  if (isUninitialized || isLoading || isFetching) {
+  if (isFetching) {
     return (
       <aside className={styles['panel']}>
         <Spinner className={styles['spinner']} />
