@@ -33,7 +33,7 @@ export function Card({ item, ...props }: CardProps) {
           className={styles['image']}
         />
         <div className={styles['name']}>
-          <CardCheckbox cardId={item.id} />
+          <CardCheckbox card={item} />
           {item.name}
         </div>
         <div className={styles['description']}>

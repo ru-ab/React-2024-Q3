@@ -1,21 +1,27 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { CardType } from '../types';
 
 type SliceState = {
-  selectedIds: Record<string, boolean>;
+  cards: CardType[];
 };
 
 const initialState: SliceState = {
-  selectedIds: {},
+  cards: [],
 };
 
 export const selectedCardsSlice = createSlice({
   name: 'selected cards',
   initialState,
   reducers: {
-    toggle: (state, action: PayloadAction<string>) => {
-      const cardId = action.payload;
-      const selected = state.selectedIds[cardId];
-      state.selectedIds[cardId] = !selected;
+    toggle: (state, action: PayloadAction<CardType>) => {
+      const card = state.cards.find((card) => card.id === action.payload.id);
+      if (card) {
+        state.cards = state.cards.filter(
+          (card) => card.id !== action.payload.id
+        );
+      } else {
+        state.cards.push(action.payload);
+      }
     },
   },
 });
@@ -25,4 +31,4 @@ export const selectedCardsReducer = selectedCardsSlice.reducer;
 
 export const selectSelectedById =
   (cardId: string) => (state: { selectedCardsReducer: SliceState }) =>
-    !!state.selectedCardsReducer.selectedIds[cardId];
+    !!state.selectedCardsReducer.cards.find((card) => card.id === cardId);

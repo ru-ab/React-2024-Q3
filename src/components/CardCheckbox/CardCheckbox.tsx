@@ -3,12 +3,12 @@ import { selectedCardsActions, selectSelectedById } from '@/features';
 import { useDispatch, useSelector } from 'react-redux';
 import { CardCheckboxProps } from './CardCheckbox.props';
 
-export function CardCheckbox({ cardId }: CardCheckboxProps) {
-  const selected = useSelector(selectSelectedById(cardId));
+export function CardCheckbox({ card }: CardCheckboxProps) {
+  const selected = useSelector(selectSelectedById(card.id));
   const dispatch = useDispatch();
 
   const onChange = () => {
-    dispatch(selectedCardsActions.toggle(cardId));
+    dispatch(selectedCardsActions.toggle(card));
   };
 
   return <Checkbox checked={selected} onChange={onChange} />;

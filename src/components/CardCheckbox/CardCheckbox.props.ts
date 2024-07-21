@@ -1,3 +1,5 @@
+import { CardType } from '@/types';
+
 export type CardCheckboxProps = {
-  cardId: string;
+  card: CardType;
 };
