@@ -14,8 +14,10 @@ export function Layout() {
       return;
     }
 
-    const detailedCardElement = (event.target as HTMLElement).closest('aside');
-    if (detailedCardElement) {
+    const ignoreClickElement = (event.target as HTMLElement).closest(
+      'aside,input,li'
+    );
+    if (ignoreClickElement) {
       return;
     }
 

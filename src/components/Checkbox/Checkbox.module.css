@@ -1,0 +1,30 @@
+.checkbox {
+  cursor: pointer;
+  appearance: none;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--surface);
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+
+  &:hover {
+    outline-offset: 2px;
+    outline: 2px solid var(--primary);
+  }
+
+  &::before {
+    content: '';
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    transition: all 0.3s;
+  }
+
+  &:checked::before {
+    background-color: var(--surface);
+    transition: all 0.3s;
+  }
+}

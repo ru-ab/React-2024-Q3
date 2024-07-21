@@ -14,3 +14,5 @@ export { Paginator } from './Paginator/Paginator';
 export { Panel } from './Panel/Panel';
 export { Search } from './Search/Search';
 export { Spinner } from './Spinner/Spinner';
+export { Checkbox } from './Checkbox/Checkbox';
+export { CardCheckbox } from './CardCheckbox/CardCheckbox';
