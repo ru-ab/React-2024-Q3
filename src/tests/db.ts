@@ -14,5 +14,8 @@ export const db = factory({
     level: String,
     subtypes: Array,
     types: Array,
+    abilities: Array,
+    attacks: Array,
+    weaknesses: Array,
   },
 });

@@ -1,4 +1,4 @@
-import { Attacks, Characteristics, Spinner } from '@/components';
+import { Attacks, Characteristics, Spinner, Abilities } from '@/components';
 import { useCard } from '@/hooks';
 import styles from './DetailedCard.module.css';
 import { DetailedCardProps } from './DetailedCard.props';
@@ -37,6 +37,8 @@ export function DetailedCard({ cardId }: DetailedCardProps) {
       <div className={styles['description']}>
         {card.flavorText ?? 'No description'}
       </div>
+      {card.abilities && <h3 className={styles['heading']}>Abilities</h3>}
+      <Abilities abilities={card.abilities} />
       {card.attacks && (
         <>
           <h3 className={styles['heading']}>Attacks</h3>

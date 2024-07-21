@@ -23,6 +23,9 @@ export const selectedCardsSlice = createSlice({
         state.cards.push(action.payload);
       }
     },
+    unselectAll: (state) => {
+      state.cards = [];
+    },
   },
 });
 
@@ -32,3 +35,7 @@ export const selectedCardsReducer = selectedCardsSlice.reducer;
 export const selectSelectedById =
   (cardId: string) => (state: { selectedCardsReducer: SliceState }) =>
     !!state.selectedCardsReducer.cards.find((card) => card.id === cardId);
+
+export const selectSelectedCards = (state: {
+  selectedCardsReducer: SliceState;
+}) => state.selectedCardsReducer.cards;

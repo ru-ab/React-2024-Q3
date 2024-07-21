@@ -11,6 +11,7 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { Ability } from '@/types';
 
 vi.mock('react-router-dom');
 
@@ -35,6 +36,7 @@ describe('DetailedCard', () => {
         id: crypto.randomUUID(),
         name: 'Card' + n,
         flavorText: 'Description' + n,
+        abilities: [{ name: 'ability' + n }] as Ability[],
       });
       cards.push(card);
     });

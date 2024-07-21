@@ -1,0 +1,27 @@
+.flyout {
+  width: 100%;
+  pointer-events: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  position: fixed;
+  bottom: -200px;
+  transition: all 0.3s;
+}
+
+.surface {
+  pointer-events: all;
+  border-radius: 5px;
+  padding: 20px;
+  color: var(--white);
+  background: var(--surface);
+  font-size: 18px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 20px;
+}
+
+.show {
+  bottom: 20px;
+}

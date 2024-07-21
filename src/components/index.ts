@@ -16,3 +16,5 @@ export { Search } from './Search/Search';
 export { Spinner } from './Spinner/Spinner';
 export { Checkbox } from './Checkbox/Checkbox';
 export { CardCheckbox } from './CardCheckbox/CardCheckbox';
+export { Flyout } from './Flyout/Flyout';
+export { Abilities } from './Abilities/Abilities';

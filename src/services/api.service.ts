@@ -16,7 +16,9 @@ export const api = createApi({
     getCards: builder.query<GetCardsResponse, GetCardsRequest>({
       query: ({ page, pageSize, search }) => {
         const params: string[] = [];
-        params.push(`select=id,name,images,flavorText`);
+        params.push(
+          `select=id,name,images,flavorText,artist,hp,level,types,subtypes,abilities,attacks,weaknesses`
+        );
         if (page) {
           params.push(`page=${page}`);
         }
