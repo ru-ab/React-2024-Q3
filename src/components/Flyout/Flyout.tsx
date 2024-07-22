@@ -1,5 +1,6 @@
 import { Button } from '@/components';
 import { selectedCardsActions, selectSelectedCards } from '@/features';
+import { useTheme } from '@/hooks';
 import { convertCardsToCsv, downloadCsv } from '@/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Flyout.module.css';
@@ -7,6 +8,7 @@ import styles from './Flyout.module.css';
 export function Flyout() {
   const selectedCards = useSelector(selectSelectedCards);
   const dispatch = useDispatch();
+  const { theme } = useTheme();
 
   const count = selectedCards.length;
 
@@ -18,7 +20,7 @@ export function Flyout() {
 
   return (
     <div className={`${styles['flyout']} ${count ? styles['show'] : ''}`}>
-      <div className={styles['surface']}>
+      <div className={`${styles['surface']} ${styles[theme]}`}>
         <span>
           {count}
           {count > 1 ? ' items are ' : ' item is '}

@@ -2,4 +2,24 @@
   border: none;
   border-radius: 5px;
   padding: 0 15px;
+
+  &.light {
+    color: var(--black);
+    background: var(--white);
+
+    &:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+  }
+
+  &.dark {
+    color: var(--white);
+    background: var(--black);
+
+    &:focus {
+      outline: 2px solid var(--primary-dark);
+      outline-offset: 2px;
+    }
+  }
 }

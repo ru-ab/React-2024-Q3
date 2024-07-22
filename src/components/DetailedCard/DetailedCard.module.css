@@ -19,3 +19,9 @@
 .heading {
   margin: 0;
 }
+
+.image {
+  &.dark {
+    filter: brightness(80%);
+  }
+}

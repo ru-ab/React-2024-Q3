@@ -1,10 +1,11 @@
 import { Attacks, Characteristics, Spinner, Abilities } from '@/components';
-import { useCard } from '@/hooks';
+import { useCard, useTheme } from '@/hooks';
 import styles from './DetailedCard.module.css';
 import { DetailedCardProps } from './DetailedCard.props';
 
 export function DetailedCard({ cardId }: DetailedCardProps) {
   const { card, isFetching, error } = useCard({ cardId });
+  const { theme } = useTheme();
 
   if (isFetching) {
     return (
@@ -28,7 +29,7 @@ export function DetailedCard({ cardId }: DetailedCardProps) {
         <img
           src={card.images.small}
           alt={card.name}
-          className={styles['image']}
+          className={`${styles['image']} ${styles[theme]}`}
         />
         <Characteristics item={card} />
       </div>

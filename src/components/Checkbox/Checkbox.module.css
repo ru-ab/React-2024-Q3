@@ -3,16 +3,38 @@
   appearance: none;
   width: 36px;
   height: 36px;
-  border: 1px solid var(--surface);
   border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
 
-  &:hover {
-    outline-offset: 2px;
-    outline: 2px solid var(--primary);
+  &.light {
+    border: 1px solid var(--surface);
+
+    &:hover,
+    &:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    &:checked::before {
+      background-color: var(--surface);
+    }
+  }
+
+  &.dark {
+    border: 1px solid var(--primary-dark);
+
+    &:hover,
+    &:focus {
+      outline: 2px solid var(--primary-dark);
+      outline-offset: 2px;
+    }
+
+    &:checked::before {
+      background-color: var(--primary-dark);
+    }
   }
 
   &::before {
@@ -24,7 +46,6 @@
   }
 
   &:checked::before {
-    background-color: var(--surface);
     transition: all 0.3s;
   }
 }

@@ -12,12 +12,22 @@
 .surface {
   padding: 95px 20px 40px;
   max-width: 500px;
-  height: calc(100vh - 140px);
+  height: calc(100vh - 135px);
   display: grid;
   align-content: start;
   grid-template-columns: 1fr;
   gap: 20px;
+  overflow-x: hidden;
   overflow-y: auto;
+
+  &.light {
+    background: var(--white);
+  }
+
+  &.dark {
+    background: var(--surface-dark);
+    color: var(--gray);
+  }
 }
 
 .close-button {

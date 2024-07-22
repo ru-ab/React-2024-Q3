@@ -1,4 +1,5 @@
 import { CardCheckbox } from '@/components';
+import { useTheme } from '@/hooks';
 import { MouseEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styles from './Card.module.css';
@@ -6,6 +7,7 @@ import { CardProps } from './Card.props';
 
 export function Card({ item, ...props }: CardProps) {
   const [, setSearchParams] = useSearchParams();
+  const { theme } = useTheme();
 
   const setDetailedCardParam = (event: MouseEvent) => {
     const checkboxElement = (event.target as HTMLElement).closest('input');
@@ -22,7 +24,7 @@ export function Card({ item, ...props }: CardProps) {
   return (
     <li
       key={item.id}
-      className={styles['list-item']}
+      className={`${styles['list-item']} ${styles[theme]}`}
       onClick={setDetailedCardParam}
       {...props}
     >
@@ -30,7 +32,7 @@ export function Card({ item, ...props }: CardProps) {
         <img
           src={item.images.small}
           alt={item.name}
-          className={styles['image']}
+          className={`${styles['image']} ${styles[theme]}`}
         />
         <div className={styles['name']}>
           <CardCheckbox card={item} />

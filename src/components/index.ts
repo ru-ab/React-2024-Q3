@@ -18,3 +18,4 @@ export { Checkbox } from './Checkbox/Checkbox';
 export { CardCheckbox } from './CardCheckbox/CardCheckbox';
 export { Flyout } from './Flyout/Flyout';
 export { Abilities } from './Abilities/Abilities';
+export { ThemeSwitch } from './ThemeSwitch/ThemeSwitch';
