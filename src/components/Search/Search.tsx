@@ -1,25 +1,24 @@
-import { ChangeEvent, MouseEvent, useState } from 'react';
-import { Input } from '../Input/Input';
-import { Button } from '../Button/Button';
+import { FormEvent } from 'react';
+import { Input, Button } from '@/components';
 import { SearchProps } from './Search.props';
 import styles from './Search.module.css';
 
 export function Search({ search, setSearch, ...props }: SearchProps) {
-  const [searchText, setSearchText] = useState<string>(search);
-
-  const onChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setSearchText(event.target.value);
-  };
-
-  const onClick = (event: MouseEvent): void => {
+  const onSubmit = (event: FormEvent) => {
     event.preventDefault();
-    setSearch(searchText);
+
+    const formData = new FormData(event.target as HTMLFormElement);
+    const inputValue = formData.get('search') ?? '';
+
+    if (search !== inputValue) {
+      setSearch(inputValue.toString());
+    }
   };
 
   return (
-    <form className={styles['form']} {...props}>
-      <Input value={searchText} onChange={onChange} type="search" />
-      <Button onClick={onClick}>Search</Button>
+    <form className={styles['form']} onSubmit={onSubmit} {...props}>
+      <Input name="search" type="search" defaultValue={search} />
+      <Button>Search</Button>
     </form>
   );
 }
