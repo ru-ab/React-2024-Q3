@@ -1,9 +1,7 @@
 .spinner {
   top: 0;
   left: 0;
-  height: calc(100vh - 100px);
   position: sticky;
-  padding: 120px 20px 20px;
   display: grid;
   align-items: center;
   justify-content: center;

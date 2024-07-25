@@ -8,11 +8,7 @@ export function DetailedCard({ cardId }: DetailedCardProps) {
   const { theme } = useTheme();
 
   if (isFetching) {
-    return (
-      <aside className={styles['panel']}>
-        <Spinner className={styles['spinner']} />
-      </aside>
-    );
+    return <Spinner className={styles['spinner']} />;
   }
 
   if (error) {
