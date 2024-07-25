@@ -1,13 +1,14 @@
 import { Card, Paginator, Spinner } from '@/components';
+import { useCards, useTheme } from '@/hooks';
 import { useSearchParams } from 'react-router-dom';
 import styles from './CardList.module.css';
 import { CardListProps } from './CardList.props';
-import { useCards } from '@/hooks';
 
 const defaultPageSize = 20;
 
 export function CardList({ search }: CardListProps) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { theme } = useTheme();
 
   const currentPage = searchParams.get('page')
     ? Number(searchParams.get('page'))
@@ -26,7 +27,9 @@ export function CardList({ search }: CardListProps) {
   }
 
   if (error || !response?.data.length) {
-    return <div className={styles['no-items']}>No items</div>;
+    return (
+      <div className={`${styles['no-items']} ${styles[theme]}`}>No items</div>
+    );
   }
 
   const onPage = (pageNumber: number) => {

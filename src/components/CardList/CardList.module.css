@@ -13,6 +13,14 @@
   align-self: center;
   font-weight: 600;
   font-size: 48px;
+
+  &.light {
+    color: var(--black);
+  }
+
+  &.dark {
+    color: var(--primary-dark);
+  }
 }
 
 .spinner {
