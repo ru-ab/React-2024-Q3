@@ -25,11 +25,7 @@ export function CardList({ search }: CardListProps) {
     return <Spinner className={styles['spinner']} />;
   }
 
-  if (error) {
-    return <>{error}</>;
-  }
-
-  if (!response?.data.length) {
+  if (error || !response?.data.length) {
     return <div className={styles['no-items']}>No items</div>;
   }
 
