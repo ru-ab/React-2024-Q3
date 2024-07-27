@@ -1,6 +1,6 @@
+import { ErrorBoundary, Fallback, NotFound, Panel } from '@/components';
+import { Layout } from '@/layouts/Layout';
 import { RouteObject } from 'react-router-dom';
-import { DetailedCard, ErrorBoundary, Fallback, NotFound } from '../components';
-import { Layout } from '../layouts/Layout';
 
 export const routes: RouteObject[] = [
   {
@@ -13,7 +13,7 @@ export const routes: RouteObject[] = [
     children: [
       {
         path: '/',
-        element: <DetailedCard />,
+        element: <Panel />,
       },
     ],
   },

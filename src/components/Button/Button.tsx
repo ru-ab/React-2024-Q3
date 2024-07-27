@@ -1,5 +1,6 @@
-import { ButtonProps } from './Button.props';
+import { useTheme } from '@/hooks';
 import styles from './Button.module.css';
+import { ButtonProps } from './Button.props';
 
 export function Button({
   children,
@@ -8,9 +9,11 @@ export function Button({
   size = 'm',
   ...props
 }: ButtonProps) {
+  const { theme } = useTheme();
+
   return (
     <button
-      className={`${styles['button']} ${styles[appearance]} ${styles[size]} ${className}`}
+      className={`${styles['button']} ${styles[theme]} ${styles[appearance]} ${styles[size]} ${className}`}
       {...props}
     >
       {children}

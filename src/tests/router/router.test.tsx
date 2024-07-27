@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { Outlet, RouterProvider, createMemoryRouter } from 'react-router-dom';
 import { Router } from '@remix-run/router';
-import { routes } from '../../router/routes';
+import { routes } from '@/router/routes';
 
-vi.mock('../../layouts/Layout', () => ({
+vi.mock('@/layouts/Layout', () => ({
   Layout: () => (
     <>
       <div>Layout</div>
@@ -12,11 +12,11 @@ vi.mock('../../layouts/Layout', () => ({
   ),
 }));
 
-vi.mock('../../components/DetailedCard/DetailedCard', () => ({
-  DetailedCard: () => <div>DetailedCard</div>,
+vi.mock('@/components/Panel/Panel', () => ({
+  Panel: () => <div>Panel</div>,
 }));
 
-vi.mock('../../components/NotFound/NotFound', () => ({
+vi.mock('@/components/NotFound/NotFound', () => ({
   NotFound: () => <div>NotFound</div>,
 }));
 
@@ -32,9 +32,9 @@ describe('Router', () => {
       text: 'Layout',
     },
     {
-      pageName: 'detailed card',
+      pageName: 'panel',
       path: '/',
-      text: 'DetailedCard',
+      text: 'Panel',
     },
     {
       pageName: 'not found',

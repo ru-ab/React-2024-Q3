@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { CardType } from '../../../types';
-import { Characteristics } from '../../../components';
-import { CharacteristicsProps } from '../../../components/Characteristics/Characteristics.props';
+import { CardType } from '@/types';
+import { Characteristics } from '@/components';
+import { CharacteristicsProps } from '@/components/Characteristics/Characteristics.props';
 
 describe('Characteristics', () => {
   const renderComponent = (props: CharacteristicsProps) => {
@@ -18,7 +18,7 @@ describe('Characteristics', () => {
 
     renderComponent({ item: card });
 
-    const level = screen.getByText(card.level);
+    const level = screen.getByText(card.level!);
     const type = screen.getByText(card.types![0]);
     const subtype = screen.getByText(card.subtypes![0]);
     const weakness = screen.getByText(

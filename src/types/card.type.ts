@@ -10,12 +10,12 @@ export type CardType = {
     large: string;
   };
   flavorText?: string;
-  artist: string;
-  hp: string;
-  level: string;
+  artist?: string;
+  hp?: string;
+  level?: string;
   subtypes?: string[];
   types?: string[];
-  abilities: Ability[];
+  abilities?: Ability[];
   attacks?: Attack[];
   weaknesses?: Weakness[];
 };

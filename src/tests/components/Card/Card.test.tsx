@@ -1,8 +1,10 @@
+import { Card } from '@/components/Card/Card';
+import { CardProps } from '@/components/Card/Card.props';
+import { store } from '@/store/store';
+import { CardType } from '@/types';
 import { render, screen } from '@testing-library/react';
-import { CardType } from '../../../types';
-import { Card } from '../../../components/Card/Card';
-import { CardProps } from '../../../components/Card/Card.props';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
 
 vi.mock('react-router-dom');
 
@@ -13,7 +15,12 @@ describe('Card', () => {
     routerModule.useSearchParams = vi
       .fn()
       .mockReturnValue([{}, setSearchParamsMock]);
-    render(<Card {...props} />);
+
+    render(
+      <Provider store={store}>
+        <Card {...props} />
+      </Provider>
+    );
 
     return {
       setSearchParamsMock,

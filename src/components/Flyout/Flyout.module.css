@@ -1,0 +1,36 @@
+.flyout {
+  width: 100%;
+  pointer-events: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  position: fixed;
+  bottom: -200px;
+  transition: all 0.3s;
+}
+
+.surface {
+  pointer-events: all;
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 18px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0px 1px 5px 0px rgb(0 0 0 / 75%);
+
+  &.light {
+    color: var(--white);
+    background: var(--surface);
+  }
+
+  &.dark {
+    color: var(--gray);
+    background: var(--surface-dark);
+  }
+}
+
+.show {
+  bottom: 20px;
+}

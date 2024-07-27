@@ -11,8 +11,12 @@ export function Characteristics({ item, ...props }: CharacteristicsProps) {
           <div>{item.level}</div>
         </>
       )}
-      <span className={styles['label']}>HP</span>
-      <div>{item.hp}</div>
+      {item.hp && (
+        <>
+          <span className={styles['label']}>HP</span>
+          <div>{item.hp}</div>
+        </>
+      )}
       {item.types && (
         <>
           <span className={styles['label']}>Types</span>
@@ -35,8 +39,12 @@ export function Characteristics({ item, ...props }: CharacteristicsProps) {
           />
         </>
       )}
-      <span className={styles['label']}>Artist</span>
-      <span>{item.artist}</span>
+      {item.artist && (
+        <>
+          <span className={styles['label']}>Artist</span>
+          <span>{item.artist}</span>
+        </>
+      )}
     </div>
   );
 }

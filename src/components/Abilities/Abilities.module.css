@@ -1,0 +1,19 @@
+.abilities {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+}
+
+.name {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.type {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.text {
+  grid-column: 1 / span 2;
+}

@@ -5,6 +5,9 @@
   --red: #fc4011df;
   --primary: #fca311;
   --surface: #14213d;
+  --primary-dark: #f2613f;
+  --surface-dark: #343434;
+  --red-dark: #da411bdb;
 }
 
 body {

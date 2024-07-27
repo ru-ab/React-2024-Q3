@@ -6,18 +6,15 @@
 }
 
 .main {
-  padding: 120px 20px 20px;
+  padding: 120px 20px 94px;
   display: grid;
   grid-template-columns: 1fr;
-  background: var(--gray);
-}
 
-.spinner {
-  justify-self: center;
-  align-self: center;
-}
+  &.light {
+    background: var(--gray);
+  }
 
-.paginator {
-  padding: 20px;
-  justify-self: center;
+  &.dark {
+    background: var(--black);
+  }
 }

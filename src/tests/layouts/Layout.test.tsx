@@ -1,11 +1,16 @@
+import { Layout } from '@/layouts/Layout';
+import { store } from '@/store/store';
 import { render, screen } from '@testing-library/react';
-import { Layout } from '../../layouts/Layout';
-import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
 
 vi.mock('react-router-dom');
 
-vi.mock('../../components/Header/Header', () => ({
+vi.mock('@/components/Header/Header', () => ({
   Header: () => <div>Header</div>,
+}));
+
+vi.mock('@/components/CardList/CardList', () => ({
+  CardList: () => <div>CardList</div>,
 }));
 
 type RenderComponent = {
@@ -21,7 +26,11 @@ describe('Layout', () => {
       .fn()
       .mockReturnValue([{ get: getSearchParamsMock }, setSearchParamsMock]);
 
-    render(<Layout />);
+    render(
+      <Provider store={store}>
+        <Layout />
+      </Provider>
+    );
 
     return {
       setSearchParamsMock,
@@ -32,28 +41,6 @@ describe('Layout', () => {
     await renderComponent({ detailsParamExists: false });
 
     const header = screen.getByText('Header');
-
-    expect(header).toBeInTheDocument();
-  });
-
-  it('should not clean details if detail page not opened', async () => {
-    await renderComponent({ detailsParamExists: false });
-
-    const header = screen.getByText('Header');
-
-    const user = userEvent.setup();
-    await user.click(header);
-
-    expect(header).toBeInTheDocument();
-  });
-
-  it('should not clean details', async () => {
-    await renderComponent({ detailsParamExists: true });
-
-    const header = screen.getByText('Header');
-
-    const user = userEvent.setup();
-    await user.click(header);
 
     expect(header).toBeInTheDocument();
   });
