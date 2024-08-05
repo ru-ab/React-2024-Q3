@@ -1,14 +1,14 @@
 import { Button, DetailedCard } from '@/components';
 import { useHideDetailedCard, useTheme } from '@/hooks';
-import { useSearchParams } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import styles from './Panel.module.css';
 
 export function Panel() {
-  const [searchParams] = useSearchParams();
+  const router = useRouter();
   const { hideDetailedCard } = useHideDetailedCard();
   const { theme } = useTheme();
 
-  const cardId = searchParams.get('details');
+  const cardId = router.query['details']?.toString();
   if (!cardId) {
     return <></>;
   }

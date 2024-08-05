@@ -2,10 +2,8 @@ import { HttpResponse, http } from 'msw';
 import { setupServer } from 'msw/node';
 import { db } from './db';
 
-export const baseUrl: string = import.meta.env.VITE_BASE_URL;
-
 const handlers = [
-  http.get(`${baseUrl}/cards/:id`, ({ params }) => {
+  http.get(`*/cards/:id`, ({ params }) => {
     const { id } = params;
 
     return HttpResponse.json({
@@ -18,7 +16,7 @@ const handlers = [
       }),
     });
   }),
-  http.get(`${baseUrl}/cards`, ({ request }) => {
+  http.get(`*/cards`, ({ request }) => {
     const url = new URL(request.url);
 
     const pageParam = url.searchParams.get('page');

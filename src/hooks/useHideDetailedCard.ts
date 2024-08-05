@@ -1,20 +1,27 @@
 import { detailedCardActions } from '@/features';
+import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
 
 export function useHideDetailedCard() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const hideDetailedCard = () => {
-    if (!searchParams.get('details')) {
+    if (!router.query['details']) {
       return;
     }
 
-    setSearchParams((params) => {
-      params.delete('details');
-      return params;
-    });
+    const newQuery = { ...router.query };
+    delete newQuery['details'];
+
+    router.replace(
+      {
+        query: newQuery,
+      },
+      undefined,
+      { scroll: false, shallow: true }
+    );
+
     dispatch(detailedCardActions.setDetailedCard(null));
   };
 

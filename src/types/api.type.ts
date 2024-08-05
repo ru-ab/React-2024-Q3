@@ -3,7 +3,7 @@ import { CardType } from './card.type';
 export type GetCardsRequest = {
   page: number | null;
   pageSize: number | null;
-  search?: string;
+  search: string | null;
 };
 
 export type GetCardsResponse = {

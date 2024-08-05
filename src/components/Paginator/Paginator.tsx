@@ -1,8 +1,8 @@
-import { Fragment } from 'react/jsx-runtime';
-import { Button } from '../Button/Button';
-import { PaginatorProps } from './Paginator.props';
-import styles from './Paginator.module.css';
+import { Button } from '@/components';
 import { useMemo } from 'react';
+import { Fragment } from 'react/jsx-runtime';
+import styles from './Paginator.module.css';
+import { PaginatorProps } from './Paginator.props';
 
 export function Paginator({
   page,
@@ -44,7 +44,13 @@ export function Paginator({
           <Button
             className={styles['button']}
             appearance={pageNumber === page ? 'primary' : 'surface'}
-            onClick={() => onPage(pageNumber)}
+            onClick={() => {
+              if (pageNumber === page) {
+                return;
+              }
+
+              onPage(pageNumber);
+            }}
           >
             {pageNumber}
           </Button>

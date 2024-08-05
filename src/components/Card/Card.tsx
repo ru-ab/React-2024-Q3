@@ -1,12 +1,12 @@
 import { CardCheckbox } from '@/components';
 import { useTheme } from '@/hooks';
+import { useRouter } from 'next/router';
 import { MouseEvent } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import styles from './Card.module.css';
 import { CardProps } from './Card.props';
 
 export function Card({ item, ...props }: CardProps) {
-  const [, setSearchParams] = useSearchParams();
+  const router = useRouter();
   const { theme } = useTheme();
 
   const setDetailedCardParam = (event: MouseEvent) => {
@@ -15,10 +15,16 @@ export function Card({ item, ...props }: CardProps) {
       return;
     }
 
-    setSearchParams((params) => {
-      params.set('details', item.id);
-      return params;
-    });
+    router.replace(
+      {
+        query: {
+          ...router.query,
+          details: item.id,
+        },
+      },
+      undefined,
+      { scroll: false, shallow: true }
+    );
   };
 
   return (

@@ -1,28 +1,23 @@
 import { Card, Paginator, Spinner } from '@/components';
-import { useCards, useTheme } from '@/hooks';
-import { useSearchParams } from 'react-router-dom';
+import { useCards, useLoading, useTheme } from '@/hooks';
+import { extractPageParams } from '@/utils';
+import { useRouter } from 'next/router';
 import styles from './CardList.module.css';
-import { CardListProps } from './CardList.props';
 
-const defaultPageSize = 20;
-
-export function CardList({ search }: CardListProps) {
-  const [searchParams, setSearchParams] = useSearchParams();
+export function CardList() {
+  const router = useRouter();
+  const loading = useLoading();
   const { theme } = useTheme();
 
-  const currentPage = searchParams.get('page')
-    ? Number(searchParams.get('page'))
-    : null;
+  const { search, page, pageSize } = extractPageParams(router.query);
 
-  const currentPageSize = currentPage ? defaultPageSize : null;
-
-  const { response, error, isFetching } = useCards({
+  const { response, error } = useCards({
     search,
-    page: currentPage,
-    pageSize: currentPageSize,
+    page,
+    pageSize,
   });
 
-  if (isFetching) {
+  if (loading) {
     return <Spinner className={styles['spinner']} />;
   }
 
@@ -33,18 +28,20 @@ export function CardList({ search }: CardListProps) {
   }
 
   const onPage = (pageNumber: number) => {
-    setSearchParams((params) => {
-      params.set('page', String(pageNumber));
-      return params;
+    router.replace({
+      query: {
+        ...(search ? { search } : {}),
+        page: pageNumber,
+      },
     });
   };
 
   const PaginatorComponent = (
     <Paginator
       className={styles['paginator']}
-      page={currentPage}
+      page={page}
       onPage={onPage}
-      pageSize={defaultPageSize}
+      pageSize={pageSize ?? 20}
       totalCount={response.totalCount}
     />
   );

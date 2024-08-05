@@ -3,7 +3,6 @@ import { DetailedCardProps } from '@/components/DetailedCard/DetailedCard.props'
 import { api } from '@/services';
 import { store } from '@/store/store';
 import { db } from '@/tests/db';
-import { baseUrl } from '@/tests/server';
 import { simulateDelay } from '@/tests/utils';
 import {
   render,
@@ -12,8 +11,6 @@ import {
 } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { Ability } from '@/types';
-
-vi.mock('react-router-dom');
 
 vi.mock('@/components/Attacks/Attacks', () => ({
   Attacks: () => <div>Attacks</div>,
@@ -64,7 +61,7 @@ describe('DetailedCard', () => {
   });
 
   it('should render spinner while loading', async () => {
-    simulateDelay(`${baseUrl}/cards/${cards[0].id}`);
+    simulateDelay(`*/cards/${cards[0].id}`);
 
     renderComponent({ cardId: cards[0].id });
 

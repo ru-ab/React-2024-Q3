@@ -1,3 +1,4 @@
+import { AppState } from '@/store/store';
 import {
   CardType,
   GetCardRequest,
@@ -5,13 +6,22 @@ import {
   GetCardsRequest,
   GetCardsResponse,
 } from '@/types';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { Action, PayloadAction } from '@reduxjs/toolkit';
+import {
+  CombinedState,
+  createApi,
+  EndpointDefinitions,
+  fetchBaseQuery,
+} from '@reduxjs/toolkit/query/react';
+import { HYDRATE } from 'next-redux-wrapper';
 
-const baseUrl: string = import.meta.env.VITE_BASE_URL;
+function isHydrateAction(action: Action): action is PayloadAction<AppState> {
+  return action.type === HYDRATE;
+}
 
 export const api = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://api.pokemontcg.io/v2' }),
   endpoints: (builder) => ({
     getCards: builder.query<GetCardsResponse, GetCardsRequest>({
       query: ({ page, pageSize, search }) => {
@@ -36,4 +46,12 @@ export const api = createApi({
       transformResponse: (response: GetCardResponse) => response.data,
     }),
   }),
+  extractRehydrationInfo(
+    action,
+    { reducerPath }
+  ): CombinedState<EndpointDefinitions, never, 'api'> | undefined {
+    if (isHydrateAction(action)) {
+      return action.payload[reducerPath];
+    }
+  },
 });

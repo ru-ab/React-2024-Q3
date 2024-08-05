@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 type UseCardsProps = {
-  search?: string;
+  search: string | null;
   page: number | null;
   pageSize: number | null;
 };

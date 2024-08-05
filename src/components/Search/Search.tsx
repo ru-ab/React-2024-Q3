@@ -1,9 +1,12 @@
+import { Button, Input } from '@/components';
+import { useRouter } from 'next/router';
 import { FormEvent } from 'react';
-import { Input, Button } from '@/components';
-import { SearchProps } from './Search.props';
 import styles from './Search.module.css';
 
-export function Search({ search, setSearch, ...props }: SearchProps) {
+export function Search() {
+  const router = useRouter();
+  const search = router.query['search']?.toString().trim();
+
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
 
@@ -11,12 +14,16 @@ export function Search({ search, setSearch, ...props }: SearchProps) {
     const inputValue = formData.get('search') ?? '';
 
     if (search !== inputValue) {
-      setSearch(inputValue.toString());
+      router.replace({
+        query: {
+          search: inputValue.toString().trim(),
+        },
+      });
     }
   };
 
   return (
-    <form className={styles['form']} onSubmit={onSubmit} {...props}>
+    <form className={styles['form']} onSubmit={onSubmit}>
       <Input name="search" type="search" defaultValue={search} />
       <Button>Search</Button>
     </form>

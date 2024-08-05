@@ -6,15 +6,14 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 
-vi.mock('react-router-dom');
+vi.mock('next/router');
 
 describe('Card', () => {
   const renderComponent = async (props: CardProps) => {
-    const setSearchParamsMock = vi.fn();
-    const routerModule = await import('react-router-dom');
-    routerModule.useSearchParams = vi
-      .fn()
-      .mockReturnValue([{}, setSearchParamsMock]);
+    const replaceMock = vi.fn();
+
+    const routerModule = await import('next/router');
+    routerModule.useRouter = vi.fn().mockReturnValue({ replace: replaceMock });
 
     render(
       <Provider store={store}>
@@ -23,7 +22,7 @@ describe('Card', () => {
     );
 
     return {
-      setSearchParamsMock,
+      replaceMock,
     };
   };
 
@@ -70,7 +69,7 @@ describe('Card', () => {
       images: { small: 'small1', large: 'large1' },
     } as CardType;
 
-    const { setSearchParamsMock } = await renderComponent({
+    const { replaceMock } = await renderComponent({
       item: card,
     });
 
@@ -79,6 +78,6 @@ describe('Card', () => {
     const user = userEvent.setup();
     await user.click(cardElement);
 
-    expect(setSearchParamsMock).toHaveBeenCalled();
+    expect(replaceMock).toHaveBeenCalled();
   });
 });

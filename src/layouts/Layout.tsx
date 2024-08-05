@@ -1,13 +1,10 @@
-import { CardList, Flyout, Header } from '@/components';
-import { useHideDetailedCard, useSearch, useTheme } from '@/hooks';
-import { MouseEvent } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Header } from '@/components';
+import { useHideDetailedCard } from '@/hooks';
+import { MouseEvent, PropsWithChildren } from 'react';
 import styles from './Layout.module.css';
 
-export function Layout() {
-  const { search, setSearch } = useSearch();
+export function Layout({ children }: PropsWithChildren) {
   const { hideDetailedCard } = useHideDetailedCard();
-  const { theme } = useTheme();
 
   const cleanDetails = (event: MouseEvent) => {
     const ignoreClickElement = (event.target as HTMLElement).closest(
@@ -22,12 +19,8 @@ export function Layout() {
 
   return (
     <div className={styles['page']} onClick={cleanDetails}>
-      <Header search={search} setSearch={setSearch} />
-      <main className={`${styles['main']} ${styles[theme]}`}>
-        <CardList search={search} />
-      </main>
-      <Outlet />
-      <Flyout />
+      <Header />
+      {children}
     </div>
   );
 }
