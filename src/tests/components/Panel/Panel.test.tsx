@@ -1,38 +1,42 @@
 import { Panel } from '@/components';
-import { store } from '@/store/store';
+import { makeStore } from '@/store/store';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 
-vi.mock('react-router-dom');
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
+}));
 
 vi.mock('@/components/DetailedCard/DetailedCard', () => ({
   DetailedCard: () => <div>DetailedCard</div>,
 }));
 
-describe('Panel', () => {
-  const renderComponent = async () => {
-    const searchParamsMock = { get: vi.fn().mockReturnValue('cardId') };
-    const setSearchParamsMock = vi.fn();
+type RenderComponentProps = {
+  details?: string;
+  replace?: () => void;
+};
 
-    const routerModule = await import('react-router-dom');
-    routerModule.useSearchParams = vi
-      .fn()
-      .mockReturnValue([searchParamsMock, setSearchParamsMock]);
+describe('Panel', () => {
+  const renderComponent = async ({
+    details,
+    replace,
+  }: RenderComponentProps) => {
+    const routerModule = await import('next/router');
+    routerModule.useRouter = vi.fn().mockReturnValue({
+      query: { details },
+      replace,
+    });
 
     render(
-      <Provider store={store}>
+      <Provider store={makeStore()}>
         <Panel />
       </Provider>
     );
-
-    return {
-      setSearchParamsMock,
-    };
   };
 
   it('should render the panel', async () => {
-    await renderComponent();
+    await renderComponent({ details: 'cardId' });
 
     const button = screen.getByRole('button', { name: /x/i });
     const detailedCard = screen.getByText('DetailedCard');
@@ -42,13 +46,17 @@ describe('Panel', () => {
   });
 
   it('should remove search param upon clicking close panel button', async () => {
-    const { setSearchParamsMock } = await renderComponent();
+    const replace = vi.fn();
+    await renderComponent({ details: 'cardId', replace });
 
     const button = screen.getByRole('button', { name: /x/i });
 
     const user = userEvent.setup();
     await user.click(button);
 
-    expect(setSearchParamsMock).toHaveBeenCalled();
+    expect(replace).toHaveBeenCalledWith({ query: {} }, undefined, {
+      scroll: false,
+      shallow: true,
+    });
   });
 });
