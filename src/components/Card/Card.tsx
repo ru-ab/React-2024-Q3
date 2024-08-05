@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { MouseEvent } from 'react';
 import styles from './Card.module.css';
 import { CardProps } from './Card.props';
+import Image from 'next/image';
 
 export function Card({ item, ...props }: CardProps) {
   const router = useRouter();
@@ -35,8 +36,10 @@ export function Card({ item, ...props }: CardProps) {
       {...props}
     >
       <div className={styles['wrapper']}>
-        <img
+        <Image
           src={item.images.small}
+          width={248}
+          height={345}
           alt={item.name}
           className={`${styles['image']} ${styles[theme]}`}
         />
