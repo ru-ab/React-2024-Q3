@@ -1,13 +1,22 @@
+import { Header } from '@/components';
 import { render, screen } from '@testing-library/react';
-import { Header } from '../../../components';
+
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
+}));
 
 describe('Header', () => {
-  const renderComponent = () => {
-    render(<Header search="" setSearch={() => {}} />);
+  const renderComponent = async () => {
+    const routerModule = await import('next/router');
+    routerModule.useRouter = vi.fn().mockReturnValue({
+      query: {},
+    });
+
+    render(<Header />);
   };
 
   it('should render Header', async () => {
-    renderComponent();
+    await renderComponent();
 
     const logo = screen.getByText('Pokémon TCG');
     const input = screen.getByRole('searchbox');
