@@ -1,15 +1,21 @@
 import { render, screen } from '@testing-library/react';
-import { NotFound } from '../../../components';
+import { NotFound } from '@/components';
 import userEvent from '@testing-library/user-event';
 
-vi.mock('react-router-dom');
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
+}));
+
+type RenderComponentProps = {
+  push?: () => void;
+};
 
 describe('NotFound', () => {
-  const renderComponent = async () => {
-    const navigateMock = vi.fn();
-
-    const routerModule = await import('react-router-dom');
-    routerModule.useNavigate = vi.fn().mockReturnValue(navigateMock);
+  const renderComponent = async ({ push }: RenderComponentProps) => {
+    const routerModule = await import('next/router');
+    routerModule.useRouter = vi.fn().mockReturnValue({
+      push,
+    });
 
     render(<NotFound />);
 
@@ -19,23 +25,23 @@ describe('NotFound', () => {
     return {
       message,
       button,
-      navigateMock,
     };
   };
 
   it('should render not found page', async () => {
-    const { message, button } = await renderComponent();
+    const { message, button } = await renderComponent({});
 
     expect(message).toBeInTheDocument();
     expect(button).toBeInTheDocument();
   });
 
   it('should navigate to home upon button clicking', async () => {
-    const { navigateMock, button } = await renderComponent();
+    const push = vi.fn();
+    const { button } = await renderComponent({ push });
 
     const user = userEvent.setup();
     await user.click(button);
 
-    expect(navigateMock).toHaveBeenCalledWith('/');
+    expect(push).toHaveBeenCalledWith('/');
   });
 });
