@@ -11,13 +11,13 @@ export function CardList() {
 
   const { search, page, pageSize } = extractPageParams(router.query);
 
-  const { response, error } = useCards({
+  const { response, error, isFetching } = useCards({
     search,
     page,
     pageSize,
   });
 
-  if (loading) {
+  if (loading || isFetching) {
     return <Spinner className={styles['spinner']} />;
   }
 
