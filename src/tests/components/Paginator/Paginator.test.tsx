@@ -1,22 +1,11 @@
+import { Paginator } from '@/components';
+import { PaginatorProps } from '@/components/Paginator/Paginator.props';
 import { render, screen } from '@testing-library/react';
-import { Paginator } from '../../../components';
-import { PaginatorProps } from '../../../components/Paginator/Paginator.props';
 import userEvent from '@testing-library/user-event';
-
-vi.mock('react-router-dom');
 
 describe('Paginator', () => {
   const renderComponent = async (props: PaginatorProps) => {
-    const setSearchParamsMock = vi.fn();
-    const routerModule = await import('react-router-dom');
-    routerModule.useSearchParams = vi
-      .fn()
-      .mockReturnValue([{}, setSearchParamsMock]);
     render(<Paginator {...props} />);
-
-    return {
-      setSearchParamsMock,
-    };
   };
 
   it('should render the Paginator', async () => {
