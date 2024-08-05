@@ -1,16 +1,15 @@
 import { DetailedCard } from '@/components';
 import { DetailedCardProps } from '@/components/DetailedCard/DetailedCard.props';
-import { api } from '@/services';
-import { store } from '@/store/store';
+import { makeStore } from '@/store/store';
 import { db } from '@/tests/db';
 import { simulateDelay } from '@/tests/utils';
+import { Ability } from '@/types';
 import {
   render,
   screen,
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { Ability } from '@/types';
 
 vi.mock('@/components/Attacks/Attacks', () => ({
   Attacks: () => <div>Attacks</div>,
@@ -21,7 +20,7 @@ describe('DetailedCard', () => {
 
   const renderComponent = ({ cardId }: DetailedCardProps) => {
     render(
-      <Provider store={store}>
+      <Provider store={makeStore()}>
         <DetailedCard cardId={cardId} />
       </Provider>
     );
@@ -34,13 +33,13 @@ describe('DetailedCard', () => {
         name: 'Card' + n,
         flavorText: 'Description' + n,
         abilities: [{ name: 'ability' + n }] as Ability[],
+        images: {
+          small: '/small' + n,
+          large: '/large' + n,
+        },
       });
       cards.push(card);
     });
-  });
-
-  beforeEach(() => {
-    store.dispatch(api.util.resetApiState());
   });
 
   afterAll(() => {
