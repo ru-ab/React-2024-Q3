@@ -23,7 +23,7 @@ export function Flyout() {
       <div className={`${styles['surface']} ${styles[theme]}`}>
         <span>
           {count}
-          {count > 1 ? ' items are ' : ' item is '}
+          {count === 0 || count > 1 ? ' items are ' : ' item is '}
           selected
         </span>
         <Button onClick={unselectAll}>Unselect all</Button>
