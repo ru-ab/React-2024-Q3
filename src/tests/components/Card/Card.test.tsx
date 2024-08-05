@@ -6,7 +6,9 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 
-vi.mock('next/router');
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
+}));
 
 describe('Card', () => {
   const renderComponent = async (props: CardProps) => {
@@ -31,7 +33,7 @@ describe('Card', () => {
       id: '1',
       name: 'card1',
       flavorText: 'flavorText1',
-      images: { small: 'small1', large: 'large1' },
+      images: { small: '/small1', large: '/large1' },
     } as CardType;
 
     await renderComponent({
@@ -51,7 +53,7 @@ describe('Card', () => {
     const card = {
       id: '1',
       name: 'card1',
-      images: { small: 'small1', large: 'large1' },
+      images: { small: '/small1', large: '/large1' },
     } as CardType;
 
     await renderComponent({
@@ -66,7 +68,7 @@ describe('Card', () => {
     const card = {
       id: '1',
       name: 'card1',
-      images: { small: 'small1', large: 'large1' },
+      images: { small: '/small1', large: '/large1' },
     } as CardType;
 
     const { replaceMock } = await renderComponent({
