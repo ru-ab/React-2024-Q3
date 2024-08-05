@@ -1,22 +1,36 @@
-import { CardList, Flyout, Panel } from '@/components';
-import { useTheme } from '@/hooks';
+import { CardList, Flyout, Header, Panel } from '@/components';
+import { useHideDetailedCard, useTheme } from '@/hooks';
 import { api } from '@/services';
 import { wrapper } from '@/store/store';
 import { extractPageParams } from '@/utils';
 import { GetServerSideProps } from 'next';
+import { MouseEvent } from 'react';
 import styles from './index.module.css';
 
 export default function Home() {
   const { theme } = useTheme();
+  const { hideDetailedCard } = useHideDetailedCard();
+
+  const cleanDetails = (event: MouseEvent) => {
+    const ignoreClickElement = (event.target as HTMLElement).closest(
+      'aside,input,li'
+    );
+    if (ignoreClickElement) {
+      return;
+    }
+
+    hideDetailedCard();
+  };
 
   return (
-    <>
+    <div className={styles['page']} onClick={cleanDetails}>
+      <Header />
       <main className={`${styles['main']} ${styles[theme]}`}>
         <CardList />
       </main>
       <Panel />
       <Flyout />
-    </>
+    </div>
   );
 }
 

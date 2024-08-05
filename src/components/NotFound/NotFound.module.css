@@ -5,11 +5,26 @@
   grid-template-columns: 1fr;
   justify-items: center;
   align-content: center;
+
+  &.light {
+    background-color: var(--white);
+  }
+
+  &.dark {
+    background-color: var(--black);
+  }
 }
 
 .message {
   font-weight: 600;
   font-size: 48px;
-  color: var(--red);
   margin-bottom: 20px;
+
+  &.light {
+    color: var(--red);
+  }
+
+  &.dark {
+    color: var(--red-dark);
+  }
 }

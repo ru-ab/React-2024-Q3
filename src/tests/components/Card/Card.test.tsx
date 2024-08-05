@@ -1,6 +1,6 @@
-import { Card } from '@/components/Card/Card';
+import { Card } from '@/components';
 import { CardProps } from '@/components/Card/Card.props';
-import { store } from '@/store/store';
+import { makeStore } from '@/store/store';
 import { CardType } from '@/types';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -16,7 +16,7 @@ describe('Card', () => {
     routerModule.useRouter = vi.fn().mockReturnValue({ replace: replaceMock });
 
     render(
-      <Provider store={store}>
+      <Provider store={makeStore()}>
         <Card {...props} />
       </Provider>
     );

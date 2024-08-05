@@ -7,7 +7,7 @@ import { api } from '@/services/api.service';
 import { configureStore } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 
-const makeStore = () =>
+export const makeStore = () =>
   configureStore({
     reducer: {
       [api.reducerPath]: api.reducer,

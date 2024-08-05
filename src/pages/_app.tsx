@@ -1,5 +1,5 @@
+import { ErrorBoundary, Fallback } from '@/components';
 import { ThemeProvider } from '@/context';
-import { Layout } from '@/layouts/Layout';
 import { wrapper } from '@/store/store';
 import { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
@@ -11,9 +11,9 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <ThemeProvider>
-        <Layout>
+        <ErrorBoundary fallback={<Fallback />}>
           <Component {...pageProps} />
-        </Layout>
+        </ErrorBoundary>
       </ThemeProvider>
     </Provider>
   );
