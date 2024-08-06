@@ -1,4 +1,3 @@
-import { AppState } from '@/store/store';
 import {
   CardType,
   GetCardRequest,
@@ -6,18 +5,7 @@ import {
   GetCardsRequest,
   GetCardsResponse,
 } from '@/types';
-import { Action, PayloadAction } from '@reduxjs/toolkit';
-import {
-  CombinedState,
-  createApi,
-  EndpointDefinitions,
-  fetchBaseQuery,
-} from '@reduxjs/toolkit/query/react';
-import { HYDRATE } from 'next-redux-wrapper';
-
-function isHydrateAction(action: Action): action is PayloadAction<AppState> {
-  return action.type === HYDRATE;
-}
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const api = createApi({
   reducerPath: 'api',
@@ -46,12 +34,4 @@ export const api = createApi({
       transformResponse: (response: GetCardResponse) => response.data,
     }),
   }),
-  extractRehydrationInfo(
-    action,
-    { reducerPath }
-  ): CombinedState<EndpointDefinitions, never, 'api'> | undefined {
-    if (isHydrateAction(action)) {
-      return action.payload[reducerPath];
-    }
-  },
 });

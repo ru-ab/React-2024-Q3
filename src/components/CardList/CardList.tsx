@@ -5,13 +5,12 @@ import { useRouter } from 'next/router';
 import styles from './CardList.module.css';
 
 export function CardList() {
-  const router = useRouter();
-  const loading = useLoading();
+  const loading = useLoading(['page', 'search']);
   const { theme } = useTheme();
+  const router = useRouter();
 
   const { search, page, pageSize } = extractPageParams(router.query);
-
-  const { response, error, isFetching } = useCards({
+  const { response, isFetching } = useCards({
     search,
     page,
     pageSize,
@@ -21,7 +20,7 @@ export function CardList() {
     return <Spinner className={styles['spinner']} />;
   }
 
-  if (error || !response?.data.length) {
+  if (!response?.data.length) {
     return (
       <div className={`${styles['no-items']} ${styles[theme]}`}>No items</div>
     );
@@ -50,8 +49,8 @@ export function CardList() {
     <>
       {PaginatorComponent}
       <ul className={styles['list']}>
-        {response.data.map((item) => (
-          <Card key={item.id} item={item} />
+        {response.data.map((card) => (
+          <Card key={card.id} item={card} />
         ))}
       </ul>
       {PaginatorComponent}

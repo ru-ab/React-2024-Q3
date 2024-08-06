@@ -2,11 +2,11 @@ import { Button } from '@/components';
 import { selectedCardsActions, selectSelectedCards } from '@/features';
 import { useTheme } from '@/hooks';
 import { convertCardsToCsv, downloadCsv } from '@/utils';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import styles from './Flyout.module.css';
 
 export function Flyout() {
-  const selectedCards = useSelector(selectSelectedCards);
+  const selectedCards = useSelector(selectSelectedCards, shallowEqual);
   const dispatch = useDispatch();
   const { theme } = useTheme();
 

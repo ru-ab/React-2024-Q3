@@ -1,6 +1,6 @@
 import { Flyout } from '@/components';
 import { selectedCardsActions } from '@/features';
-import { makeStore } from '@/store/store';
+import { createStore } from '@/store/store';
 import { CardType } from '@/types';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -14,7 +14,7 @@ type RenderComponentProps = {
 
 describe('Flyout', () => {
   const renderComponent = ({ selectedCards = [] }: RenderComponentProps) => {
-    const store = makeStore();
+    const store = createStore();
     selectedCards.forEach((card) =>
       store.dispatch(selectedCardsActions.toggle(card))
     );

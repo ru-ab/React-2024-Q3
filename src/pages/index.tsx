@@ -6,8 +6,10 @@ import { extractPageParams } from '@/utils';
 import { GetServerSideProps } from 'next';
 import { MouseEvent } from 'react';
 import styles from './index.module.css';
+import { PageProps } from 'next-redux-wrapper';
 
-export default function Home() {
+export default function Home(props: PageProps) {
+  wrapper.useHydration(props);
   const { theme } = useTheme();
   const { hideDetailedCard } = useHideDetailedCard();
 

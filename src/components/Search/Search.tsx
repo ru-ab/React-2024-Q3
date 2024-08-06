@@ -5,7 +5,7 @@ import styles from './Search.module.css';
 
 export function Search() {
   const router = useRouter();
-  const search = router.query['search']?.toString().trim();
+  const search = router.query['search']?.toString().trim() ?? '';
 
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -16,7 +16,9 @@ export function Search() {
     if (search !== inputValue) {
       router.replace({
         query: {
-          search: inputValue.toString().trim(),
+          ...(inputValue.toString().trim()
+            ? { search: inputValue.toString().trim() }
+            : {}),
         },
       });
     }

@@ -24,7 +24,7 @@ export function Card({ item, ...props }: CardProps) {
         },
       },
       undefined,
-      { scroll: false, shallow: true }
+      { scroll: false }
     );
   };
 

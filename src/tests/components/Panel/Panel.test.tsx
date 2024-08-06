@@ -1,5 +1,5 @@
 import { Panel } from '@/components';
-import { makeStore } from '@/store/store';
+import { createStore } from '@/store/store';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
@@ -7,6 +7,8 @@ import { Provider } from 'react-redux';
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
 }));
+
+vi.mock('@/hooks/useLoading');
 
 vi.mock('@/components/DetailedCard/DetailedCard', () => ({
   DetailedCard: () => <div>DetailedCard</div>,
@@ -28,8 +30,11 @@ describe('Panel', () => {
       replace,
     });
 
+    const loadingModule = await import('@/hooks/useLoading');
+    loadingModule.useLoading = vi.fn().mockReturnValue(false);
+
     render(
-      <Provider store={makeStore()}>
+      <Provider store={createStore()}>
         <Panel />
       </Provider>
     );

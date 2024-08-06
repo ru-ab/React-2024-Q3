@@ -1,5 +1,5 @@
 import { CardList } from '@/components';
-import { makeStore } from '@/store/store';
+import { createStore } from '@/store/store';
 import { db } from '@/tests/db';
 import { server } from '@/tests/server';
 import { simulateDelay } from '@/tests/utils';
@@ -39,7 +39,7 @@ describe('CardList', () => {
     loadingModule.useLoading = vi.fn().mockReturnValue(loading);
 
     render(
-      <Provider store={makeStore()}>
+      <Provider store={createStore()}>
         <CardList />
       </Provider>
     );

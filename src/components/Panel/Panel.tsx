@@ -1,15 +1,16 @@
-import { Button, DetailedCard } from '@/components';
-import { useHideDetailedCard, useTheme } from '@/hooks';
-import { useRouter } from 'next/router';
+import { Button, DetailedCard, Spinner } from '@/components';
+import { useHideDetailedCard, useLoading, useTheme } from '@/hooks';
 import styles from './Panel.module.css';
+import { useRouter } from 'next/router';
 
 export function Panel() {
-  const router = useRouter();
   const { hideDetailedCard } = useHideDetailedCard();
   const { theme } = useTheme();
+  const router = useRouter();
+  const loading = useLoading(['details'], false);
 
-  const cardId = router.query['details']?.toString();
-  if (!cardId) {
+  const cardId = router.query['details']?.toString() ?? null;
+  if (!loading && !cardId) {
     return <></>;
   }
 
@@ -24,7 +25,8 @@ export function Panel() {
           >
             X
           </Button>
-          <DetailedCard cardId={cardId} />
+          {loading && <Spinner className={styles['spinner']} />}
+          {!loading && cardId && <DetailedCard cardId={cardId} />}
         </div>
       </div>
     </aside>
