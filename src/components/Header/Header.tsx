@@ -1,3 +1,4 @@
+'use client';
 import { BuggyButton, Search, ThemeSwitch } from '@/components';
 import { useTheme } from '@/hooks';
 import styles from './Header.module.css';

@@ -11,7 +11,7 @@
 
 .surface {
   padding: 95px 20px 40px;
-  max-width: 500px;
+  width: 500px;
   height: calc(100vh - 135px);
   display: grid;
   align-content: start;

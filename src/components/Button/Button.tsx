@@ -1,3 +1,4 @@
+'use client';
 import { useTheme } from '@/hooks';
 import styles from './Button.module.css';
 import { ButtonProps } from './Button.props';

@@ -1,3 +1,4 @@
+'ues client';
 import { Button } from '@/components';
 import { useMemo } from 'react';
 import { Fragment } from 'react/jsx-runtime';

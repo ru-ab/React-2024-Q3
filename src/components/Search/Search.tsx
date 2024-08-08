@@ -1,11 +1,14 @@
+'use client';
 import { Button, Input } from '@/components';
-import { useRouter } from 'next/router';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FormEvent } from 'react';
 import styles from './Search.module.css';
 
 export function Search() {
   const router = useRouter();
-  const search = router.query['search']?.toString().trim() ?? '';
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const search = searchParams?.get('search')?.toString().trim() ?? '';
 
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -14,13 +17,11 @@ export function Search() {
     const inputValue = formData.get('search') ?? '';
 
     if (search !== inputValue) {
-      router.replace({
-        query: {
-          ...(inputValue.toString().trim()
-            ? { search: inputValue.toString().trim() }
-            : {}),
-        },
-      });
+      if (!inputValue.toString().trim()) {
+        router.push('/');
+      } else {
+        router.push(`${pathname}?search=${inputValue.toString().trim()}`);
+      }
     }
   };
 

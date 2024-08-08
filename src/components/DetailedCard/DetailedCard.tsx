@@ -1,24 +1,12 @@
-import { Attacks, Characteristics, Abilities, Spinner } from '@/components';
-import { useCard, useTheme } from '@/hooks';
+'use client';
+import { Abilities, Attacks, Characteristics } from '@/components';
+import { useTheme } from '@/hooks';
+import Image from 'next/image';
 import styles from './DetailedCard.module.css';
 import { DetailedCardProps } from './DetailedCard.props';
-import Image from 'next/image';
 
-export function DetailedCard({ cardId }: DetailedCardProps) {
+export function DetailedCard({ card }: DetailedCardProps) {
   const { theme } = useTheme();
-  const { card, isFetching, error } = useCard({ cardId });
-
-  if (isFetching) {
-    return <Spinner className={styles['spinner']} />;
-  }
-
-  if (error) {
-    return <>{error}</>;
-  }
-
-  if (!card) {
-    return <></>;
-  }
 
   return (
     <>

@@ -1,47 +1,50 @@
-import { Card, Paginator, Spinner } from '@/components';
-import { useCards, useLoading, useTheme } from '@/hooks';
-import { extractPageParams } from '@/utils';
-import { useRouter } from 'next/router';
+'use client';
+import { Card, Paginator } from '@/components';
+import { useTheme } from '@/hooks';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback } from 'react';
 import styles from './CardList.module.css';
+import { CardListProps } from './CardList.props';
 
-export function CardList() {
-  const loading = useLoading(['page', 'search']);
+export function CardList({ cards, page, pageSize, totalCount }: CardListProps) {
   const { theme } = useTheme();
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const { search, page, pageSize } = extractPageParams(router.query);
-  const { response, isFetching } = useCards({
-    search,
-    page,
-    pageSize,
-  });
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      if (!searchParams) {
+        return;
+      }
 
-  if (loading || isFetching) {
-    return <Spinner className={styles['spinner']} />;
-  }
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+      params.delete('details');
+      return params.toString();
+    },
+    [searchParams]
+  );
 
-  if (!response?.data.length) {
+  const onPage = (pageNumber: number) => {
+    router.push(
+      `${pathname}?${createQueryString('page', pageNumber.toString())}`
+    );
+  };
+
+  if (!cards.length) {
     return (
       <div className={`${styles['no-items']} ${styles[theme]}`}>No items</div>
     );
   }
 
-  const onPage = (pageNumber: number) => {
-    router.replace({
-      query: {
-        ...(search ? { search } : {}),
-        page: pageNumber,
-      },
-    });
-  };
-
   const PaginatorComponent = (
     <Paginator
-      className={styles['paginator']}
       page={page}
-      onPage={onPage}
       pageSize={pageSize ?? 20}
-      totalCount={response.totalCount}
+      totalCount={totalCount}
+      onPage={onPage}
+      className={styles['paginator']}
     />
   );
 
@@ -49,7 +52,7 @@ export function CardList() {
     <>
       {PaginatorComponent}
       <ul className={styles['list']}>
-        {response.data.map((card) => (
+        {cards.map((card) => (
           <Card key={card.id} item={card} />
         ))}
       </ul>

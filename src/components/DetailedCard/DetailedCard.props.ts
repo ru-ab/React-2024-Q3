@@ -1,3 +1,5 @@
+import { CardType } from '@/types';
+
 export type DetailedCardProps = {
-  cardId: string;
+  card: CardType;
 };

@@ -1,28 +1,34 @@
-import { detailedCardActions } from '@/features';
-import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
+'use client';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback } from 'react';
 
 export function useHideDetailedCard() {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const deleteQueryString = useCallback(
+    (name: string) => {
+      if (!searchParams) {
+        return;
+      }
+
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete(name);
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   const hideDetailedCard = () => {
-    if (!router.query['details']) {
+    const details = searchParams?.get('details');
+    if (!details) {
       return;
     }
 
-    const newQuery = { ...router.query };
-    delete newQuery['details'];
-
-    router.replace(
-      {
-        query: newQuery,
-      },
-      undefined,
-      { scroll: false, shallow: true }
-    );
-
-    dispatch(detailedCardActions.setDetailedCard(null));
+    router.push(`${pathname}?${deleteQueryString('details')}`, {
+      scroll: false,
+    });
   };
 
   return {

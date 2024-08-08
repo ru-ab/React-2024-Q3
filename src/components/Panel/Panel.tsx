@@ -1,18 +1,12 @@
-import { Button, DetailedCard, Spinner } from '@/components';
-import { useHideDetailedCard, useLoading, useTheme } from '@/hooks';
+'use client';
+import { Button } from '@/components';
+import { useHideDetailedCard, useTheme } from '@/hooks';
+import { PropsWithChildren } from 'react';
 import styles from './Panel.module.css';
-import { useRouter } from 'next/router';
 
-export function Panel() {
+export function Panel({ children }: PropsWithChildren) {
   const { hideDetailedCard } = useHideDetailedCard();
   const { theme } = useTheme();
-  const router = useRouter();
-  const loading = useLoading(['details'], false);
-
-  const cardId = router.query['details']?.toString() ?? null;
-  if (!loading && !cardId) {
-    return <></>;
-  }
 
   return (
     <aside className={styles['panel']}>
@@ -25,8 +19,7 @@ export function Panel() {
           >
             X
           </Button>
-          {loading && <Spinner className={styles['spinner']} />}
-          {!loading && cardId && <DetailedCard cardId={cardId} />}
+          {children}
         </div>
       </div>
     </aside>

@@ -1,5 +1,5 @@
 import { Checkbox } from '@/components';
-import { selectedCardsActions, selectSelectedById } from '@/features';
+import { selectedCardsActions, selectSelectedById } from '@/lib/features';
 import { useDispatch, useSelector } from 'react-redux';
 import { CardCheckboxProps } from './CardCheckbox.props';
 

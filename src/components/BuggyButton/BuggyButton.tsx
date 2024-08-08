@@ -1,5 +1,6 @@
+'use client';
+import { Button } from '@/components';
 import { useState } from 'react';
-import { Button } from '../Button/Button';
 import { BuggyButtonProps } from './BuggyButton.props';
 
 export function BuggyButton(props: BuggyButtonProps) {

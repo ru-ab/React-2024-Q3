@@ -1,3 +1,8 @@
+.wrapper {
+  justify-self: center;
+  align-self: center;
+}
+
 .spinner {
   position: relative;
   height: 100px;

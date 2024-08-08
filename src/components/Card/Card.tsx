@@ -1,14 +1,30 @@
+'use client';
 import { CardCheckbox } from '@/components';
 import { useTheme } from '@/hooks';
-import { useRouter } from 'next/router';
-import { MouseEvent } from 'react';
+import Image from 'next/image';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { MouseEvent, useCallback } from 'react';
 import styles from './Card.module.css';
 import { CardProps } from './Card.props';
-import Image from 'next/image';
 
 export function Card({ item, ...props }: CardProps) {
-  const router = useRouter();
   const { theme } = useTheme();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      if (!searchParams) {
+        return;
+      }
+
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   const setDetailedCardParam = (event: MouseEvent) => {
     const checkboxElement = (event.target as HTMLElement).closest('input');
@@ -16,16 +32,9 @@ export function Card({ item, ...props }: CardProps) {
       return;
     }
 
-    router.replace(
-      {
-        query: {
-          ...router.query,
-          details: item.id,
-        },
-      },
-      undefined,
-      { scroll: false }
-    );
+    router.push(`${pathname}?${createQueryString('details', item.id)}`, {
+      scroll: false,
+    });
   };
 
   return (
