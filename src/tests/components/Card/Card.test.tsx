@@ -1,30 +1,38 @@
 import { Card } from '@/components';
 import { CardProps } from '@/components/Card/Card.props';
-import { createStore } from '@/store/store';
+import { makeStore } from '@/lib/store';
 import { CardType } from '@/types';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 
-vi.mock('next/router', () => ({
-  useRouter: vi.fn(),
+vi.mock('next/navigation', () => ({
+  useRouter: vi.fn().mockReturnValue({
+    push: vi.fn(),
+  }),
+  usePathname: vi.fn(),
+  useSearchParams: vi.fn().mockReturnValue({
+    toString: vi.fn(),
+  }),
 }));
 
 describe('Card', () => {
   const renderComponent = async (props: CardProps) => {
-    const replaceMock = vi.fn();
+    const pushMock = vi.fn();
 
-    const routerModule = await import('next/router');
-    routerModule.useRouter = vi.fn().mockReturnValue({ replace: replaceMock });
+    const navigationModule = await import('next/navigation');
+    navigationModule.useRouter = vi.fn().mockReturnValue({
+      push: pushMock,
+    });
 
     render(
-      <Provider store={createStore()}>
+      <Provider store={makeStore()}>
         <Card {...props} />
       </Provider>
     );
 
     return {
-      replaceMock,
+      pushMock,
     };
   };
 
@@ -71,7 +79,7 @@ describe('Card', () => {
       images: { small: '/small1', large: '/large1' },
     } as CardType;
 
-    const { replaceMock } = await renderComponent({
+    const { pushMock } = await renderComponent({
       item: card,
     });
 
@@ -80,6 +88,6 @@ describe('Card', () => {
     const user = userEvent.setup();
     await user.click(cardElement);
 
-    expect(replaceMock).toHaveBeenCalled();
+    expect(pushMock).toHaveBeenCalled();
   });
 });

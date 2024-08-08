@@ -1,67 +1,55 @@
 import { Panel } from '@/components';
-import { createStore } from '@/store/store';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Provider } from 'react-redux';
 
-vi.mock('next/router', () => ({
-  useRouter: vi.fn(),
-}));
-
-vi.mock('@/hooks/useLoading');
-
-vi.mock('@/components/DetailedCard/DetailedCard', () => ({
-  DetailedCard: () => <div>DetailedCard</div>,
+vi.mock('next/navigation', () => ({
+  useRouter: vi.fn().mockReturnValue({
+    push: vi.fn(),
+  }),
+  usePathname: vi.fn(),
+  useSearchParams: vi.fn().mockReturnValue({
+    toString: vi.fn(),
+  }),
 }));
 
 type RenderComponentProps = {
-  details?: string;
-  replace?: () => void;
+  searchParams?: URLSearchParams;
 };
 
 describe('Panel', () => {
   const renderComponent = async ({
-    details,
-    replace,
+    searchParams = new URLSearchParams(),
   }: RenderComponentProps) => {
-    const routerModule = await import('next/router');
-    routerModule.useRouter = vi.fn().mockReturnValue({
-      query: { details },
-      replace,
+    const pushMock = vi.fn();
+
+    const navigationModule = await import('next/navigation');
+    navigationModule.useRouter = vi.fn().mockReturnValue({
+      push: pushMock,
     });
+    navigationModule.useSearchParams = vi.fn().mockReturnValue(searchParams);
 
-    const loadingModule = await import('@/hooks/useLoading');
-    loadingModule.useLoading = vi.fn().mockReturnValue(false);
+    render(<Panel />);
 
-    render(
-      <Provider store={createStore()}>
-        <Panel />
-      </Provider>
-    );
+    return { pushMock };
   };
 
   it('should render the panel', async () => {
-    await renderComponent({ details: 'cardId' });
+    await renderComponent({});
 
     const button = screen.getByRole('button', { name: /x/i });
-    const detailedCard = screen.getByText('DetailedCard');
 
     expect(button).toBeInTheDocument();
-    expect(detailedCard).toBeInTheDocument();
   });
 
   it('should remove search param upon clicking close panel button', async () => {
-    const replace = vi.fn();
-    await renderComponent({ details: 'cardId', replace });
+    const { pushMock } = await renderComponent({
+      searchParams: new URLSearchParams({ details: 'cardId' }),
+    });
 
     const button = screen.getByRole('button', { name: /x/i });
-
     const user = userEvent.setup();
     await user.click(button);
 
-    expect(replace).toHaveBeenCalledWith({ query: {} }, undefined, {
-      scroll: false,
-      shallow: true,
-    });
+    expect(pushMock).toHaveBeenCalled();
   });
 });

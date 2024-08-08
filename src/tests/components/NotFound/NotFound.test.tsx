@@ -2,8 +2,14 @@ import { render, screen } from '@testing-library/react';
 import { NotFound } from '@/components';
 import userEvent from '@testing-library/user-event';
 
-vi.mock('next/router', () => ({
-  useRouter: vi.fn(),
+vi.mock('next/navigation', () => ({
+  useRouter: vi.fn().mockReturnValue({
+    push: vi.fn(),
+  }),
+  usePathname: vi.fn().mockReturnValue('pathname'),
+  useSearchParams: vi.fn().mockReturnValue({
+    toString: vi.fn(),
+  }),
 }));
 
 type RenderComponentProps = {
@@ -12,8 +18,8 @@ type RenderComponentProps = {
 
 describe('NotFound', () => {
   const renderComponent = async ({ push }: RenderComponentProps) => {
-    const routerModule = await import('next/router');
-    routerModule.useRouter = vi.fn().mockReturnValue({
+    const navigationModule = await import('next/navigation');
+    navigationModule.useRouter = vi.fn().mockReturnValue({
       push,
     });
 

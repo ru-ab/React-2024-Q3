@@ -1,17 +1,18 @@
 import { Header } from '@/components';
 import { render, screen } from '@testing-library/react';
 
-vi.mock('next/router', () => ({
-  useRouter: vi.fn(),
+vi.mock('next/navigation', () => ({
+  useRouter: vi.fn().mockReturnValue({
+    push: vi.fn(),
+  }),
+  usePathname: vi.fn().mockReturnValue('pathname'),
+  useSearchParams: vi.fn().mockReturnValue({
+    toString: vi.fn(),
+  }),
 }));
 
 describe('Header', () => {
   const renderComponent = async () => {
-    const routerModule = await import('next/router');
-    routerModule.useRouter = vi.fn().mockReturnValue({
-      query: {},
-    });
-
     render(<Header />);
   };
 

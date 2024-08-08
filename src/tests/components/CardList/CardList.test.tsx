@@ -1,46 +1,30 @@
 import { CardList } from '@/components';
-import { createStore } from '@/store/store';
+import { CardListProps } from '@/components/CardList/CardList.props';
+import { makeStore } from '@/lib/store';
 import { db } from '@/tests/db';
 import { server } from '@/tests/server';
-import { simulateDelay } from '@/tests/utils';
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
+import { CardType } from '@/types';
+import { render, screen } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { Provider } from 'react-redux';
 
-vi.mock('next/router', () => ({
-  useRouter: vi.fn(),
+vi.mock('next/navigation', () => ({
+  useRouter: vi.fn().mockReturnValue({
+    push: vi.fn(),
+  }),
+  usePathname: vi.fn(),
+  useSearchParams: vi.fn().mockReturnValue({
+    toString: vi.fn(),
+  }),
 }));
-
-vi.mock('@/hooks/useLoading');
-
-type RenderComponentProps = {
-  loading?: boolean;
-  search?: string;
-  page?: string;
-};
 
 describe('CardList', () => {
   const cards: ReturnType<typeof db.card.create>[] = [];
 
-  const renderComponent = async ({ loading }: RenderComponentProps) => {
-    const replace = vi.fn();
-
-    const routerModule = await import('next/router');
-    routerModule.useRouter = vi.fn().mockReturnValue({
-      query: {},
-      replace,
-    });
-
-    const loadingModule = await import('@/hooks/useLoading');
-    loadingModule.useLoading = vi.fn().mockReturnValue(loading);
-
+  const renderComponent = async (props: CardListProps) => {
     render(
-      <Provider store={createStore()}>
-        <CardList />
+      <Provider store={makeStore()}>
+        <CardList {...props} />
       </Provider>
     );
   };
@@ -63,20 +47,15 @@ describe('CardList', () => {
     db.card.deleteMany({ where: { id: { in: cards.map((card) => card.id) } } });
   });
 
-  it('should show spinner while loading', async () => {
-    simulateDelay(`*/cards`);
-
-    await renderComponent({ loading: true });
-
-    const spinner = screen.getByRole('progressbar');
-    expect(spinner).toBeInTheDocument();
-  });
-
   it('should show "no items"', async () => {
     server.use(http.get(`*/cards`, () => HttpResponse.json({ data: [] })));
 
-    await renderComponent({});
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
+    await renderComponent({
+      cards: [],
+      page: null,
+      pageSize: null,
+      totalCount: 0,
+    });
 
     const list = screen.queryByRole('list');
     expect(list).not.toBeInTheDocument();
@@ -84,8 +63,12 @@ describe('CardList', () => {
   });
 
   it('should render items', async () => {
-    await renderComponent({});
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
+    await renderComponent({
+      cards: db.card.getAll() as CardType[],
+      page: null,
+      pageSize: 1,
+      totalCount: db.card.count(),
+    });
 
     const list = screen.queryByRole('list');
     const listItems = screen.queryAllByRole('listitem');

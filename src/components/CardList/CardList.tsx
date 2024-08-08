@@ -1,35 +1,15 @@
 'use client';
 import { Card, Paginator } from '@/components';
-import { useTheme } from '@/hooks';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback } from 'react';
+import { useSearchParamsBuilder, useTheme } from '@/hooks';
 import styles from './CardList.module.css';
 import { CardListProps } from './CardList.props';
 
 export function CardList({ cards, page, pageSize, totalCount }: CardListProps) {
   const { theme } = useTheme();
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      if (!searchParams) {
-        return;
-      }
-
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
-      params.delete('details');
-      return params.toString();
-    },
-    [searchParams]
-  );
+  const params = useSearchParamsBuilder();
 
   const onPage = (pageNumber: number) => {
-    router.push(
-      `${pathname}?${createQueryString('page', pageNumber.toString())}`
-    );
+    params.set('page', pageNumber.toString()).delete('details').apply();
   };
 
   if (!cards.length) {

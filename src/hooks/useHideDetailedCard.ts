@@ -1,34 +1,16 @@
 'use client';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback } from 'react';
+import { useSearchParamsBuilder } from './useSearchParamsBuilder';
 
 export function useHideDetailedCard() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const deleteQueryString = useCallback(
-    (name: string) => {
-      if (!searchParams) {
-        return;
-      }
-
-      const params = new URLSearchParams(searchParams.toString());
-      params.delete(name);
-      return params.toString();
-    },
-    [searchParams]
-  );
+  const params = useSearchParamsBuilder();
 
   const hideDetailedCard = () => {
-    const details = searchParams?.get('details');
+    const details = params?.get('details');
     if (!details) {
       return;
     }
 
-    router.push(`${pathname}?${deleteQueryString('details')}`, {
-      scroll: false,
-    });
+    params.delete('details').apply({ scroll: false });
   };
 
   return {

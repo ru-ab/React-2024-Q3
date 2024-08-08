@@ -1,14 +1,9 @@
 import { DetailedCard } from '@/components';
 import { DetailedCardProps } from '@/components/DetailedCard/DetailedCard.props';
-import { createStore } from '@/store/store';
+import { makeStore } from '@/lib/store';
 import { db } from '@/tests/db';
-import { simulateDelay } from '@/tests/utils';
-import { Ability } from '@/types';
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
+import { Ability, CardType } from '@/types';
+import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
 vi.mock('@/components/Attacks/Attacks', () => ({
@@ -18,10 +13,10 @@ vi.mock('@/components/Attacks/Attacks', () => ({
 describe('DetailedCard', () => {
   const cards: ReturnType<typeof db.card.create>[] = [];
 
-  const renderComponent = ({ cardId }: DetailedCardProps) => {
+  const renderComponent = ({ card }: DetailedCardProps) => {
     render(
-      <Provider store={createStore()}>
-        <DetailedCard cardId={cardId} />
+      <Provider store={makeStore()}>
+        <DetailedCard card={card} />
       </Provider>
     );
   };
@@ -47,8 +42,7 @@ describe('DetailedCard', () => {
   });
 
   it('should render the DetailedCard', async () => {
-    renderComponent({ cardId: cards[0].id });
-    await waitForElementToBeRemoved(() => screen.getByRole('progressbar'));
+    renderComponent({ card: cards[0] as CardType });
 
     const img = screen.getByRole('img');
     const name = screen.getByText(cards[0].name);
@@ -57,14 +51,5 @@ describe('DetailedCard', () => {
     expect(img).toBeInTheDocument();
     expect(name).toBeInTheDocument();
     expect(description).toBeInTheDocument();
-  });
-
-  it('should render spinner while loading', async () => {
-    simulateDelay(`*/cards/${cards[0].id}`);
-
-    renderComponent({ cardId: cards[0].id });
-
-    const spinner = screen.getByRole('progressbar');
-    expect(spinner).toBeInTheDocument();
   });
 });

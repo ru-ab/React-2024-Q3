@@ -8,7 +8,7 @@ export function UnselectWrapper({ children }: PropsWithChildren) {
 
   const cleanDetails = (event: MouseEvent) => {
     const ignoreClickElement = (event.target as HTMLElement).closest(
-      'aside,input,li'
+      'aside,input,li,button'
     );
 
     if (ignoreClickElement) {

@@ -1,10 +1,12 @@
 import { render, screen } from '@testing-library/react';
-import { Fallback } from '../../../components';
 import userEvent from '@testing-library/user-event';
+import { Fallback } from '@/components';
 
 describe('Fallback', () => {
   const renderComponent = () => {
-    render(<Fallback />);
+    const resetMock = vi.fn();
+
+    render(<Fallback reset={resetMock} />);
 
     const message = screen.getByText(/wrong/i);
     const button = screen.getByRole('button', { name: /refresh/i });
@@ -12,6 +14,7 @@ describe('Fallback', () => {
     return {
       message,
       button,
+      resetMock,
     };
   };
 
@@ -22,18 +25,12 @@ describe('Fallback', () => {
     expect(button).toBeInTheDocument();
   });
 
-  it('should reload window upon button clicking', async () => {
-    const reload = vi.fn();
-    const location: Partial<typeof window.location> = {
-      reload,
-    };
-    window.location = location as typeof window.location;
-
-    const { button } = renderComponent();
+  it('should call reset() upon button clicking', async () => {
+    const { button, resetMock } = renderComponent();
 
     const user = userEvent.setup();
     await user.click(button);
 
-    expect(reload).toHaveBeenCalled();
+    expect(resetMock).toHaveBeenCalled();
   });
 });
