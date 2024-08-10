@@ -1,0 +1,15 @@
+.info {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+}
+
+.heading {
+  margin: 0;
+}
+
+.image {
+  &.dark {
+    filter: brightness(80%);
+  }
+}

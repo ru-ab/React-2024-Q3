@@ -1,0 +1,13 @@
+.main {
+  padding: 120px 20px 94px;
+  display: grid;
+  grid-template-columns: 1fr;
+
+  &.light {
+    background: var(--gray);
+  }
+
+  &.dark {
+    background: var(--black);
+  }
+}
