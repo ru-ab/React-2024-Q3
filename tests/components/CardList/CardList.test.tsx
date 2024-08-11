@@ -1,37 +1,26 @@
-import { CardList } from '@/components';
-import { api } from '@/services';
-import { store } from '@/store/store';
-import { db } from '@/tests/db';
-import { baseUrl, server } from '@/tests/server';
-import { simulateDelay } from '@/tests/utils';
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
-import { http, HttpResponse } from 'msw';
+import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { CardList } from '~/components';
+import { store } from '~/store/store';
+import { CardType } from '~/types';
+import { db } from '../../db';
+
+vi.mock('@remix-run/react');
 
 type RenderComponentProps = {
-  search?: string;
-  page?: string;
+  cards: CardType[];
 };
 
 describe('CardList', () => {
   const cards: ReturnType<typeof db.card.create>[] = [];
 
-  const renderComponent = async ({ search, page }: RenderComponentProps) => {
-    const searchParamsMock = { get: vi.fn().mockReturnValue(page) };
-    const setSearchParamsMock = vi.fn();
-
-    const routerModule = await import('react-router-dom');
-    routerModule.useSearchParams = vi
-      .fn()
-      .mockReturnValue([searchParamsMock, setSearchParamsMock]);
+  const renderComponent = async ({ cards }: RenderComponentProps) => {
+    const routerModule = await import('@remix-run/react');
+    routerModule.useSearchParams = vi.fn().mockReturnValue([{}, vi.fn()]);
 
     render(
       <Provider store={store}>
-        <CardList search={search} />
+        <CardList cards={cards as CardType[]} />
       </Provider>
     );
   };
@@ -46,30 +35,12 @@ describe('CardList', () => {
     });
   });
 
-  beforeEach(() => {
-    store.dispatch(api.util.resetApiState());
-  });
-
   afterAll(() => {
     db.card.deleteMany({ where: { id: { in: cards.map((card) => card.id) } } });
   });
 
-  it('should show spinner while loading', async () => {
-    simulateDelay(`${baseUrl}/cards`);
-
-    await renderComponent({});
-
-    const spinner = screen.getByRole('progressbar');
-    expect(spinner).toBeInTheDocument();
-  });
-
   it('should show "no items"', async () => {
-    server.use(
-      http.get(`${baseUrl}/cards`, () => HttpResponse.json({ data: [] }))
-    );
-
-    await renderComponent({});
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
+    await renderComponent({ cards: [] });
 
     const list = screen.queryByRole('list');
     expect(list).not.toBeInTheDocument();
@@ -77,8 +48,7 @@ describe('CardList', () => {
   });
 
   it('should render items', async () => {
-    await renderComponent({});
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
+    await renderComponent({ cards: cards as CardType[] });
 
     const list = screen.queryByRole('list');
     const listItems = screen.queryAllByRole('listitem');

@@ -1,6 +1,4 @@
 import { Links, Meta, Outlet, Scripts } from '@remix-run/react';
-import { Provider } from 'react-redux';
-import { store } from './store/store';
 import { Fallback } from './components';
 import './root.css';
 
@@ -32,9 +30,7 @@ function Document(props: { children: React.ReactNode; title: string }) {
         <Links />
       </head>
       <body>
-        <div id="root">
-          <Provider store={store}>{props.children}</Provider>
-        </div>
+        <div id="root">{props.children}</div>
         <Scripts />
       </body>
     </html>

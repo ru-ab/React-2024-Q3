@@ -1,6 +1,7 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from '@remix-run/node';
 import { Await, defer, json, useLoaderData } from '@remix-run/react';
 import { Suspense } from 'react';
+import { Provider } from 'react-redux';
 import { getCard, getCards } from '~/api';
 import {
   CardList,
@@ -16,6 +17,7 @@ import {
 import { ThemeProvider } from '~/context';
 import { prefs, type CookieState } from '~/cookie/prefs-cookie';
 import { useLoading } from '~/hooks';
+import { store } from '~/store/store';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { searchParams } = new URL(request.url);
@@ -53,42 +55,44 @@ export default function Index() {
   const detailedCardLoading = useLoading(['details'], false);
 
   return (
-    <ThemeProvider>
-      <UnselectWrapper>
-        <Header />
-        <Main>
-          {cardListLoading && <Spinner />}
-          <Suspense fallback={<Spinner />}>
-            <Await resolve={getCardsResponse}>
-              {({ data: cards, totalCount }) =>
-                !cardListLoading && (
-                  <>
-                    <CardPaginator page={page} totalCount={totalCount} />
-                    <CardList cards={cards} />
-                    <CardPaginator page={page} totalCount={totalCount} />
-                  </>
-                )
-              }
-            </Await>
-          </Suspense>
-        </Main>
-        {(detailedCardLoading || getCardResponse) && (
-          <Panel>
-            {detailedCardLoading && <Spinner />}
-            {getCardResponse && (
-              <Suspense fallback={<Spinner />}>
-                <Await resolve={getCardResponse}>
-                  {({ data: card }) =>
-                    !detailedCardLoading && <DetailedCard card={card} />
-                  }
-                </Await>
-              </Suspense>
-            )}
-          </Panel>
-        )}
-      </UnselectWrapper>
-      <Flyout />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider>
+        <UnselectWrapper>
+          <Header />
+          <Main>
+            {cardListLoading && <Spinner />}
+            <Suspense fallback={<Spinner />}>
+              <Await resolve={getCardsResponse}>
+                {({ data: cards, totalCount }) =>
+                  !cardListLoading && (
+                    <>
+                      <CardPaginator page={page} totalCount={totalCount} />
+                      <CardList cards={cards} />
+                      <CardPaginator page={page} totalCount={totalCount} />
+                    </>
+                  )
+                }
+              </Await>
+            </Suspense>
+          </Main>
+          {(detailedCardLoading || getCardResponse) && (
+            <Panel>
+              {detailedCardLoading && <Spinner />}
+              {getCardResponse && (
+                <Suspense fallback={<Spinner />}>
+                  <Await resolve={getCardResponse}>
+                    {({ data: card }) =>
+                      !detailedCardLoading && <DetailedCard card={card} />
+                    }
+                  </Await>
+                </Suspense>
+              )}
+            </Panel>
+          )}
+        </UnselectWrapper>
+        <Flyout />
+      </ThemeProvider>
+    </Provider>
   );
 }
 

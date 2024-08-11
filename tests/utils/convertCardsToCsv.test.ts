@@ -1,4 +1,4 @@
-import { convertCardsToCsv } from '@/utils';
+import { convertCardsToCsv } from '~/utils';
 
 describe('convertCardsToCsv', () => {
   it('should convert mandatory fields of CardType[] to string', () => {

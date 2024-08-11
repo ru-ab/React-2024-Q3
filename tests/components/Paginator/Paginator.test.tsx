@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { Paginator } from '../../../components';
-import { PaginatorProps } from '../../../components/Paginator/Paginator.props';
+import { Paginator } from '~/components';
+import { PaginatorProps } from '~/components/Paginator/Paginator.props';
 import userEvent from '@testing-library/user-event';
 
 vi.mock('react-router-dom');

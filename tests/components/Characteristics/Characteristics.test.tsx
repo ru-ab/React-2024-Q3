@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { CardType } from '../../../../app/types';
-import { Characteristics } from '@/components';
-import { CharacteristicsProps } from '@/components/Characteristics/Characteristics.props';
+import { Characteristics } from '~/components';
+import { CharacteristicsProps } from '~/components/Characteristics/Characteristics.props';
+import { CardType } from '~/types';
 
 describe('Characteristics', () => {
   const renderComponent = (props: CharacteristicsProps) => {

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { Attacks } from '../../../components/Attacks/Attacks';
-import { AttacksProps } from '../../../components/Attacks/Attacks.props';
-import { Attack } from '../../../../app/types';
+import { Attacks } from '~/components';
+import { AttacksProps } from '~/components/Attacks/Attacks.props';
+import { Attack } from '~/types';
 
 describe('Attacks', () => {
   const renderComponent = (props: AttacksProps) => {

@@ -1,17 +1,17 @@
-import { Card } from '@/components/Card/Card';
-import { CardProps } from '@/components/Card/Card.props';
-import { store } from '@/store/store';
-import { CardType } from '../../../../app/types';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
+import { Card } from '~/components';
+import { CardProps } from '~/components/Card/Card.props';
+import { store } from '~/store/store';
+import { CardType } from '~/types';
 
-vi.mock('react-router-dom');
+vi.mock('@remix-run/react');
 
 describe('Card', () => {
   const renderComponent = async (props: CardProps) => {
     const setSearchParamsMock = vi.fn();
-    const routerModule = await import('react-router-dom');
+    const routerModule = await import('@remix-run/react');
     routerModule.useSearchParams = vi
       .fn()
       .mockReturnValue([{}, setSearchParamsMock]);
@@ -22,9 +22,7 @@ describe('Card', () => {
       </Provider>
     );
 
-    return {
-      setSearchParamsMock,
-    };
+    return { setSearchParamsMock };
   };
 
   it('should render the Card"', async () => {

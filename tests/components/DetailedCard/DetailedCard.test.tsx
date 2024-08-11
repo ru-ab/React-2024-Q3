@@ -1,19 +1,10 @@
-import { DetailedCard } from '@/components';
-import { DetailedCardProps } from '@/components/DetailedCard/DetailedCard.props';
-import { api } from '@/services';
-import { store } from '@/store/store';
-import { db } from '@/tests/db';
-import { baseUrl } from '@/tests/server';
-import { simulateDelay } from '@/tests/utils';
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { Ability } from '../../../../app/types';
-
-vi.mock('react-router-dom');
+import { DetailedCard } from '~/components';
+import { DetailedCardProps } from '~/components/DetailedCard/DetailedCard.props';
+import { store } from '~/store/store';
+import { Ability, CardType } from '~/types';
+import { db } from '../../db';
 
 vi.mock('@/components/Attacks/Attacks', () => ({
   Attacks: () => <div>Attacks</div>,
@@ -22,10 +13,10 @@ vi.mock('@/components/Attacks/Attacks', () => ({
 describe('DetailedCard', () => {
   const cards: ReturnType<typeof db.card.create>[] = [];
 
-  const renderComponent = ({ cardId }: DetailedCardProps) => {
+  const renderComponent = ({ card }: DetailedCardProps) => {
     render(
       <Provider store={store}>
-        <DetailedCard cardId={cardId} />
+        <DetailedCard card={card} />
       </Provider>
     );
   };
@@ -42,17 +33,12 @@ describe('DetailedCard', () => {
     });
   });
 
-  beforeEach(() => {
-    store.dispatch(api.util.resetApiState());
-  });
-
   afterAll(() => {
     db.card.deleteMany({ where: { id: { in: cards.map((card) => card.id) } } });
   });
 
   it('should render the DetailedCard', async () => {
-    renderComponent({ cardId: cards[0].id });
-    await waitForElementToBeRemoved(() => screen.getByRole('progressbar'));
+    renderComponent({ card: cards[0] as CardType });
 
     const img = screen.getByRole('img');
     const name = screen.getByText(cards[0].name);
@@ -61,14 +47,5 @@ describe('DetailedCard', () => {
     expect(img).toBeInTheDocument();
     expect(name).toBeInTheDocument();
     expect(description).toBeInTheDocument();
-  });
-
-  it('should render spinner while loading', async () => {
-    simulateDelay(`${baseUrl}/cards/${cards[0].id}`);
-
-    renderComponent({ cardId: cards[0].id });
-
-    const spinner = screen.getByRole('progressbar');
-    expect(spinner).toBeInTheDocument();
   });
 });

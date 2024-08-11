@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { Fallback } from '../../../components';
 import userEvent from '@testing-library/user-event';
+import { Fallback } from '~/components';
 
 describe('Fallback', () => {
   const renderComponent = () => {

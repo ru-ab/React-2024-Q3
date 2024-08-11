@@ -6,17 +6,17 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    setupFiles: 'src/tests/vitest-setup.ts',
+    setupFiles: 'tests/vitest-setup.ts',
     coverage: {
-      include: ['src'],
-      exclude: ['src/tests', '**/index.ts', '**/main.tsx'],
+      include: ['app'],
+      exclude: ['app/entry.server.tsx', '**/index.ts', '**/main.tsx'],
       enabled: true,
     },
   },
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '~': path.resolve(__dirname, './app'),
     },
   },
 });

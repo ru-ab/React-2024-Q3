@@ -1,11 +1,36 @@
 import { render, screen } from '@testing-library/react';
-import { Search } from '../../../components';
-import { SearchProps } from '../../../../app/components/Search/Search.props';
-import userEvent from '@testing-library/user-event';
+import { Search } from '~/components';
+import { createRemixStub } from '@remix-run/testing';
+
+vi.mock('@remix-run/react', async (importOriginal) => {
+  return {
+    ...(await importOriginal<typeof import('@remix-run/react')>()),
+    useSearchParams: vi.fn(),
+  };
+});
+
+const RemixStub = createRemixStub([
+  {
+    path: '/',
+    Component: Search,
+  },
+]);
+
+type RenderComponentProps = {
+  search: string;
+};
 
 describe('Search', () => {
-  const renderComponent = (props: SearchProps) => {
-    render(<Search {...props} />);
+  const renderComponent = async ({ search }: RenderComponentProps) => {
+    const searchParamsMock = { get: vi.fn().mockReturnValue(search) };
+    const setSearchParamsMock = vi.fn();
+
+    const routerModule = await import('@remix-run/react');
+    routerModule.useSearchParams = vi
+      .fn()
+      .mockReturnValue([searchParamsMock, setSearchParamsMock]);
+
+    render(<RemixStub />);
 
     const input = screen.getByRole('searchbox') as HTMLInputElement;
     const button = screen.getByRole('button');
@@ -17,30 +42,10 @@ describe('Search', () => {
   };
 
   it('should render search text', async () => {
-    const searchText = 'search text';
+    const search = 'search text';
 
-    const { input } = renderComponent({
-      search: searchText,
-      setSearch: () => {},
-    });
+    const { input } = await renderComponent({ search });
 
-    expect(input.value).toBe(searchText);
-  });
-
-  it('should call setSearch on submit', async () => {
-    const searchText = 'search text';
-    const setSearch = vi.fn();
-
-    const { input, button } = renderComponent({
-      search: '',
-      setSearch,
-    });
-
-    const user = userEvent.setup();
-    await user.type(input, searchText);
-    await user.click(button);
-
-    expect(input.value).toBe(searchText);
-    expect(setSearch).toHaveBeenCalledWith(searchText);
+    expect(input.value).toBe(search);
   });
 });

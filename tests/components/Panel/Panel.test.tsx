@@ -1,28 +1,24 @@
-import { Panel } from '@/components';
-import { store } from '@/store/store';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
+import { Panel } from '~/components';
+import { store } from '~/store/store';
 
-vi.mock('react-router-dom');
-
-vi.mock('@/components/DetailedCard/DetailedCard', () => ({
-  DetailedCard: () => <div>DetailedCard</div>,
-}));
+vi.mock('@remix-run/react');
 
 describe('Panel', () => {
   const renderComponent = async () => {
     const searchParamsMock = { get: vi.fn().mockReturnValue('cardId') };
     const setSearchParamsMock = vi.fn();
 
-    const routerModule = await import('react-router-dom');
+    const routerModule = await import('@remix-run/react');
     routerModule.useSearchParams = vi
       .fn()
       .mockReturnValue([searchParamsMock, setSearchParamsMock]);
 
     render(
       <Provider store={store}>
-        <Panel />
+        <Panel>Children</Panel>
       </Provider>
     );
 
@@ -35,10 +31,10 @@ describe('Panel', () => {
     await renderComponent();
 
     const button = screen.getByRole('button', { name: /x/i });
-    const detailedCard = screen.getByText('DetailedCard');
+    const children = screen.getByText('Children');
 
     expect(button).toBeInTheDocument();
-    expect(detailedCard).toBeInTheDocument();
+    expect(children).toBeInTheDocument();
   });
 
   it('should remove search param upon clicking close panel button', async () => {
