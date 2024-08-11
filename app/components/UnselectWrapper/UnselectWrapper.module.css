@@ -1,0 +1,6 @@
+.wrapper {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto;
+}
