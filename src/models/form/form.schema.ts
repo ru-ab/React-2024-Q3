@@ -56,5 +56,5 @@ export const formSchema = object({
 
 export type FormType = InferType<typeof formSchema>;
 export type FormErrors = Partial<{
-  [key in keyof FormType]: string[];
+  [key in keyof FormType]: { message?: string };
 }>;

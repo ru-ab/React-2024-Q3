@@ -1,7 +1,9 @@
 import { useCallback, useState } from 'react';
 import { ValidationError } from 'yup';
 
-export function useFormErrors<T extends Record<string, string[]>>() {
+export function useFormErrors<
+  T extends Record<string, { message?: string }>,
+>() {
   const [errorMessages, setErrorMessages] = useState<T>({} as T);
 
   const cleanErrors = useCallback(() => {
@@ -15,8 +17,11 @@ export function useFormErrors<T extends Record<string, string[]>>() {
         return;
       }
 
-      messages[e.path as keyof T] ??= [] as unknown as T[keyof T];
-      messages[e.path as keyof T]?.push(e.message);
+      if (messages[e.path as keyof T]?.message) {
+        messages[e.path as keyof T].message += `\n${e.message}`;
+      } else {
+        messages[e.path as keyof T] = { message: e.message } as T[keyof T];
+      }
     });
     setErrorMessages(messages);
   }, []);
