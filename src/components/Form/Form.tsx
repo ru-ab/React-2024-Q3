@@ -1,5 +1,9 @@
+import { ChangeEvent, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { ValidationError } from 'yup';
+import { PasswordComplexity } from '~/components';
 import { selectCountries } from '~/features';
+import { formSchema } from '~/models';
 import { FormProps } from './Form.props';
 
 export function Form({
@@ -9,6 +13,24 @@ export function Form({
   submitButtonDisabled: submitDisabled,
 }: FormProps) {
   const countries = useSelector(selectCountries);
+  const [passwordComplexity, setPasswordComplexity] = useState<number>(0);
+
+  const onPasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+    try {
+      formSchema.validateSyncAt(
+        'password',
+        {
+          password: event.target.value,
+        },
+        { abortEarly: false }
+      );
+      setPasswordComplexity(4);
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        setPasswordComplexity(4 - error.errors.length);
+      }
+    }
+  };
 
   return (
     <form autoComplete="off" onSubmit={onSubmit} noValidate>
@@ -48,8 +70,11 @@ export function Form({
           id="password"
           type="password"
           required
-          {...(register ? register('password') : { name: 'password' })}
+          {...(register
+            ? register('password', { onChange: onPasswordChange })
+            : { name: 'password', onChange: onPasswordChange })}
         />
+        <PasswordComplexity complexity={passwordComplexity} />
         <span>{errors.password?.message}</span>
       </div>
       <div>
