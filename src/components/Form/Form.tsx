@@ -71,7 +71,6 @@ export function Form({
             id="male"
             type="radio"
             value="male"
-            defaultChecked
             {...(register ? register('gender') : { name: 'gender' })}
           />
         </span>

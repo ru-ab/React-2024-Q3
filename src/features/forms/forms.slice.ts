@@ -1,7 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit/react';
+import { UUID } from 'crypto';
 import { FormType } from '~/models';
 
-type ReduxFormType = Omit<FormType, 'image'> & { image: string };
+export type ReduxFormType = Omit<FormType, 'image'> & {
+  image: string;
+  id: UUID;
+};
 
 export type FormsState = ReduxFormType[];
 
@@ -12,7 +16,7 @@ export const formsSlice = createSlice({
   initialState,
   reducers: {
     addForm(state, action: PayloadAction<ReduxFormType>) {
-      state.push(action.payload);
+      state.unshift({ ...action.payload, id: crypto.randomUUID() });
     },
   },
 });
