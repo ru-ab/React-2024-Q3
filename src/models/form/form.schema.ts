@@ -24,8 +24,16 @@ export const formSchema = object({
     ),
   confirmPassword: string().oneOf([ref('password')], 'Passwords must match'),
   gender: string().required().oneOf(['male', 'female']),
-  agreement: string().required().oneOf(['on']),
+  agreement: mixed<boolean>()
+    .transform((value: string | boolean) =>
+      typeof value === 'string' ? value === 'on' : value
+    )
+    .default(false)
+    .oneOf([true], 'You must accept the terms and conditions'),
   image: mixed<File>()
+    .transform((value: File | FileList) =>
+      value instanceof FileList ? value[0] : value
+    )
     .test(
       'Image required',
       'Image file is required',
