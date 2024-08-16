@@ -15,7 +15,7 @@ export const formsSlice = createSlice({
   name: 'forms',
   initialState,
   reducers: {
-    addForm(state, action: PayloadAction<ReduxFormType>) {
+    addForm(state, action: PayloadAction<Omit<ReduxFormType, 'id'>>) {
       state.unshift({ ...action.payload, id: crypto.randomUUID() });
     },
   },
