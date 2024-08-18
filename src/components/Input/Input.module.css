@@ -1,0 +1,101 @@
+.component {
+  &.text,
+  &.number,
+  &.email,
+  &.password,
+  &.file {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto;
+    gap: 0.3rem;
+  }
+
+  &.radio,
+  &.checkbox {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 6px;
+  }
+}
+
+.input[type='text'],
+.input[type='number'],
+.input[type='email'],
+.input[type='password'] {
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  padding: 0.6rem;
+  color: var(--text);
+  font-size: 1rem;
+
+  &.error {
+    outline: 1px solid var(--red);
+  }
+
+  &:focus {
+    outline: 2px solid var(--secondary);
+
+    &.error {
+      outline: 2px solid var(--red);
+    }
+  }
+}
+
+.input[type='radio'],
+.input[type='checkbox'] {
+  margin: 0;
+  cursor: pointer;
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid var(--primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+
+  &::before {
+    content: '';
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  &:checked::before {
+    background-color: var(--primary);
+  }
+}
+
+.input[type='radio'] {
+  border-radius: 50%;
+
+  &::before {
+    border-radius: 50%;
+  }
+}
+
+.input[type='checkbox'] {
+  border-radius: 5px;
+
+  &::before {
+    border-radius: 4px;
+  }
+}
+
+.input[type='file'] {
+  color: var(--text);
+
+  &::file-selector-button {
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    padding: 0.6rem;
+    color: var(--background);
+    font-size: 1rem;
+    background: var(--secondary);
+  }
+
+  &::file-selector-button:hover {
+    filter: brightness(90%);
+  }
+}

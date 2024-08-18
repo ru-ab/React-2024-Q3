@@ -1,0 +1,36 @@
+.card {
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  padding: 2rem;
+  background: #ffffff;
+  font-size: 1rem;
+  color: var(--text);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem;
+
+  &.highlight {
+    animation-name: highlight;
+    animation-duration: 4s;
+  }
+}
+
+.label {
+  font-weight: 600;
+  justify-self: right;
+}
+
+.image {
+  max-width: 300px;
+}
+
+@keyframes highlight {
+  from {
+    background: var(--primary);
+    color: #ffffff;
+  }
+  to {
+    background: #ffffff;
+    color: var(--text);
+  }
+}
