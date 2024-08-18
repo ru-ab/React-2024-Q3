@@ -8,6 +8,11 @@
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 0.5rem;
+
+  &.highlight {
+    animation-name: highlight;
+    animation-duration: 4s;
+  }
 }
 
 .label {
@@ -17,4 +22,15 @@
 
 .image {
   max-width: 300px;
+}
+
+@keyframes highlight {
+  from {
+    background: var(--primary);
+    color: #ffffff;
+  }
+  to {
+    background: #ffffff;
+    color: var(--text);
+  }
 }

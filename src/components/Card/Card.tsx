@@ -1,9 +1,26 @@
-import { CardProps } from './Card.props';
+import cn from 'classnames';
+import { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { formsActions } from '~/features';
 import styles from './Card.module.css';
+import { CardProps } from './Card.props';
 
 export function Card({ data }: CardProps) {
+  const dispatch = useDispatch();
+  const highlighted = useRef<boolean>(data.highlighted);
+
+  useEffect(() => {
+    if (!data.highlighted) {
+      dispatch(formsActions.highlight({ id: data.id }));
+    }
+  }, [data.highlighted, data.id, dispatch]);
+
   return (
-    <div className={styles['card']}>
+    <div
+      className={cn(styles['card'], {
+        [styles['highlight']]: !highlighted.current,
+      })}
+    >
       <div className={styles['label']}>Name:</div>
       <div>{data.name}</div>
       <div className={styles['label']}>Age:</div>

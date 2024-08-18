@@ -5,6 +5,7 @@ import { FormType } from '~/models';
 export type ReduxFormType = Omit<FormType, 'image'> & {
   image: string;
   id: UUID;
+  highlighted: boolean;
 };
 
 export type FormsState = ReduxFormType[];
@@ -16,7 +17,17 @@ export const formsSlice = createSlice({
   initialState,
   reducers: {
     addForm(state, action: PayloadAction<Omit<ReduxFormType, 'id'>>) {
-      state.unshift({ ...action.payload, id: crypto.randomUUID() });
+      state.unshift({
+        ...action.payload,
+        id: crypto.randomUUID(),
+        highlighted: false,
+      });
+    },
+    highlight(state, action: PayloadAction<{ id: UUID }>) {
+      const form = state.find((form) => form.id === action.payload.id);
+      if (form) {
+        form.highlighted = true;
+      }
     },
   },
 });
