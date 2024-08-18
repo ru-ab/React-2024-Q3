@@ -1,9 +1,10 @@
 import { ChangeEvent, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ValidationError } from 'yup';
-import { PasswordComplexity } from '~/components';
+import { Button, ErrorMessage, Input, PasswordComplexity } from '~/components';
 import { selectCountries } from '~/features';
 import { formSchema } from '~/models';
+import styles from './Form.module.css';
 import { FormProps } from './Form.props';
 
 export function Form({
@@ -33,119 +34,107 @@ export function Form({
   };
 
   return (
-    <form autoComplete="off" onSubmit={onSubmit} noValidate>
-      <div>
-        <label htmlFor="name">Name: </label>
-        <input
-          id="name"
-          type="text"
-          required
-          {...(register ? register('name') : { name: 'name' })}
-        />
-        <span>{errors.name?.message}</span>
-      </div>
-      <div>
-        <label htmlFor="age">Age: </label>
-        <input
-          id="age"
-          type="number"
-          required
-          {...(register ? register('age') : { name: 'age' })}
-        />
-        <span>{errors.age?.message}</span>
-      </div>
-      <div>
-        <label htmlFor="email">Email: </label>
-        <input
-          id="email"
-          type="email"
-          required
-          {...(register ? register('email') : { name: 'email' })}
-        />
-        <span>{errors.email?.message}</span>
-      </div>
-      <div>
-        <label htmlFor="password">Password: </label>
-        <input
+    <form
+      className={styles['form']}
+      autoComplete="off"
+      onSubmit={onSubmit}
+      noValidate
+    >
+      <Input
+        id="name"
+        label="Name"
+        type="text"
+        required
+        error={errors.name?.message}
+        {...(register ? register('name') : { name: 'name' })}
+      />
+      <Input
+        id="age"
+        label="Age"
+        type="number"
+        required
+        error={errors.age?.message}
+        {...(register ? register('age') : { name: 'age' })}
+      />
+      <Input
+        id="email"
+        label="Email"
+        type="email"
+        required
+        error={errors.email?.message}
+        {...(register ? register('email') : { name: 'email' })}
+      />
+      <div className={styles['password-wrapper']}>
+        <Input
           id="password"
+          label="Password"
           type="password"
           required
+          error={errors.password?.message}
           {...(register
             ? register('password', { onChange: onPasswordChange })
             : { name: 'password', onChange: onPasswordChange })}
         />
         <PasswordComplexity complexity={passwordComplexity} />
-        <span>{errors.password?.message}</span>
       </div>
-      <div>
-        <label htmlFor="confirmPassword">Confirm password: </label>
-        <input
-          id="confirmPassword"
-          type="password"
-          required
-          {...(register
-            ? register('confirmPassword')
-            : { name: 'confirmPassword' })}
+      <Input
+        id="confirmPassword"
+        label="Confirm password"
+        type="password"
+        required
+        error={errors.confirmPassword?.message}
+        {...(register
+          ? register('confirmPassword')
+          : { name: 'confirmPassword' })}
+      />
+      <div className={styles['gender']}>
+        <Input
+          id="male"
+          label="Male"
+          type="radio"
+          value="male"
+          showErrors={false}
+          {...(register ? register('gender') : { name: 'gender' })}
         />
-        <span>{errors.confirmPassword?.message}</span>
-      </div>
-      <div>
-        <span>
-          <label htmlFor="male">Male</label>
-          <input
-            id="male"
-            type="radio"
-            value="male"
-            {...(register ? register('gender') : { name: 'gender' })}
-          />
-        </span>
-        <span>
-          <label htmlFor="female">Female</label>
-          <input
-            id="female"
-            type="radio"
-            value="female"
-            {...(register ? register('gender') : { name: 'gender' })}
-          />
-        </span>
-        <span>{errors.gender?.message}</span>
-      </div>
-      <div>
-        <label htmlFor="agreement">
-          I accept Terms and Conditions agreement:{' '}
-        </label>
-        <input
-          id="agreement"
-          type="checkbox"
-          {...(register ? register('agreement') : { name: 'agreement' })}
+        <Input
+          id="female"
+          label="Female"
+          type="radio"
+          value="female"
+          showErrors={false}
+          {...(register ? register('gender') : { name: 'gender' })}
         />
-        <span>{errors.agreement?.message}</span>
+        <ErrorMessage>{errors.gender?.message}</ErrorMessage>
       </div>
-      <div>
-        <label htmlFor="image">Image: </label>
-        <input
-          id="image"
-          type="file"
-          accept=".png,.jpeg"
-          {...(register ? register('image') : { name: 'image' })}
-        />
-        <span>{errors.image?.message}</span>
-      </div>
-      <div>
-        <label htmlFor="country">Country: </label>
-        <input
-          id="country"
-          list="suggestions"
-          {...(register ? register('country') : { name: 'country' })}
-        />
-        <datalist id="suggestions">
-          {countries.map((country) => (
-            <option key={country} value={country} />
-          ))}
-        </datalist>
-        <span>{errors.country?.message}</span>
-      </div>
-      <button disabled={submitDisabled}>Submit</button>
+      <Input
+        id="agreement"
+        label="I accept Terms and Conditions agreement"
+        type="checkbox"
+        error={errors.agreement?.message}
+        {...(register ? register('agreement') : { name: 'agreement' })}
+      />
+      <Input
+        id="image"
+        label="Image"
+        type="file"
+        accept=".png,.jpeg"
+        error={errors.image?.message}
+        {...(register ? register('image') : { name: 'image' })}
+      />
+      <Input
+        id="country"
+        label="Country"
+        type="text"
+        list="suggestions"
+        error={errors.country?.message}
+        {...(register ? register('country') : { name: 'country' })}
+      />
+      <datalist id="suggestions">
+        {countries.map((country) => (
+          <option key={country} value={country} />
+        ))}
+      </datalist>
+      <Button disabled={submitDisabled}>Submit</Button>
     </form>
   );
 }

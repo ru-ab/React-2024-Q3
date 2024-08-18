@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Form } from '~/components';
+import { Form, Heading } from '~/components';
 import { formsActions } from '~/features';
 import { formSchema, FormType } from '~/models';
 import { convertImageToBase64 } from '~/utils';
@@ -35,11 +35,14 @@ export function ReactHookFormPage() {
   };
 
   return (
-    <Form
-      register={register}
-      onSubmit={handleSubmit(onSubmit)}
-      errors={errors}
-      submitButtonDisabled={!isValid}
-    />
+    <>
+      <Heading>React Hook Form</Heading>
+      <Form
+        register={register}
+        onSubmit={handleSubmit(onSubmit)}
+        errors={errors}
+        submitButtonDisabled={!isValid}
+      />
+    </>
   );
 }

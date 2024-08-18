@@ -17,9 +17,7 @@ export function useFormErrors<
         return;
       }
 
-      if (messages[e.path as keyof T]?.message) {
-        messages[e.path as keyof T].message += `\n${e.message}`;
-      } else {
+      if (!messages[e.path as keyof T]?.message) {
         messages[e.path as keyof T] = { message: e.message } as T[keyof T];
       }
     });

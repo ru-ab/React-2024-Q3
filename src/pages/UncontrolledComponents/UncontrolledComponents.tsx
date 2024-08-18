@@ -2,7 +2,7 @@ import { FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ValidationError } from 'yup';
-import { Form } from '~/components';
+import { Form, Heading } from '~/components';
 import { formsActions } from '~/features';
 import { useFormErrors } from '~/hooks';
 import { FormErrors, formSchema } from '~/models';
@@ -39,5 +39,10 @@ export function UncontrolledComponentsPage() {
     }
   };
 
-  return <Form errors={errors} onSubmit={onSubmit} />;
+  return (
+    <>
+      <Heading>Uncontrolled Components</Heading>
+      <Form errors={errors} onSubmit={onSubmit} />
+    </>
+  );
 }
