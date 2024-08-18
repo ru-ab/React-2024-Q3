@@ -1,0 +1,16 @@
+:root {
+  --text: #3d3d3d;
+  --background: #f5f5f9;
+  --primary: #4d45c0;
+  --secondary: #8d86ec;
+  --accent: #5448fa;
+  --red: #fa4848;
+  --orange: #fa8348;
+  --yellow: #ffe600;
+  --green: #48fa54;
+  --border: #eaeaea;
+}
+
+body {
+  background: var(--background);
+}

@@ -1,0 +1,24 @@
+.page {
+  display: grid;
+  grid-template-areas:
+    '. . header . .'
+    '. main main main .';
+  grid-template-columns: 1fr auto auto auto 1fr;
+}
+
+.header {
+  height: 2rem;
+  grid-area: header;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 20px;
+
+  & .active {
+    cursor: default;
+    color: var(--text);
+  }
+}
+
+.main {
+  grid-area: main;
+}

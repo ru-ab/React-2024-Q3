@@ -1,0 +1,26 @@
+.form {
+  max-width: 25rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.3rem;
+  background: #ffffff;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  padding: 2rem;
+}
+
+.password-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.gender {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 0.3rem;
+
+  & .label {
+    grid-column: 1 / span 2;
+  }
+}
