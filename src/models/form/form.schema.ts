@@ -8,7 +8,8 @@ export const formSchema = object({
   age: number()
     .typeError('Age must be a number.')
     .required()
-    .positive('Age must be a positive number.'),
+    .integer('Age must be an integer')
+    .moreThan(-1, 'Age must be a positive number.'),
   email: string()
     .required('Email is a required field.')
     .email('Email must be a valid email.'),
